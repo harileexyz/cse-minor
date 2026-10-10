@@ -21,25 +21,20 @@
 10. Document Object Model (DOM)
 11. Form Processing (Validation)
 
-**Part B: jQuery**
-12. A Basic jQuery Example
-13. Finding Elements and jQuery Selection
-14. Getting Element Content
-15. Updating Elements and Changing Content
-16. Inserting Elements and Adding New Content
-17. Getting and Setting Attributes
-18. Getting and Setting CSS Properties
-19. Using .each()
-20. Events
-21. The Event Object
-22. Effects
-23. Animating CSS Properties and Using Animation
-24. Traversing the DOM
-25. Working with Forms
-26. JavaScript Libraries
+**Part B: jQuery (short version)**
+12. What is jQuery? A Basic Example
+13. Selecting Elements
+14. Getting and Changing Content, Attributes and CSS
+15. Inserting New Elements
+16. Looping with .each()
+17. Events and the Event Object
+18. Effects and Animation
+19. Traversing the DOM
+20. Working with Forms
+21. JavaScript Libraries
 
 **Part C: Plain JavaScript vs jQuery**
-**Part D: Mini-Project (Tea Shop Bill Calculator)**
+**Part D: Mini-Projects (Tea Shop Bill in JavaScript, To-do List in jQuery)**
 **Part E: Question Bank (KTU style)**
 
 ---
@@ -1324,1291 +1319,309 @@ IRCTC signup (username availability, password rules), UPI apps checking that the
 
 ---
 
-# PART B: jQUERY
+# PART B: jQUERY (SHORT VERSION)
 
 ---
 
-## 12. A Basic jQuery Example
+## 12. What is jQuery? A Basic Example
 
-### Simple explanation
+**jQuery** is a JavaScript library: a ready-made file of functions that makes common page tasks short. Motto: "write less, do more".
 
-**jQuery** is a JavaScript library (a ready-made set of functions) that makes common page tasks short and easy. Its motto: "write less, do more".
+**Analogy:** jQuery is like **GPay**. Paying with bank details, IFSC and account number takes many steps. GPay turns it into "scan and pay". jQuery turns long JavaScript into one-liners.
 
-To use it, include it with a `<script>` tag (from a CDN, a fast public server):
-
-```html
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-```
-
-The main shape of every jQuery line:
+Every jQuery line has the same shape:
 
 ```
-$(selector).action(parameters);
+$(selector).action();
+   which       what to do
 ```
 
-- `$` (dollar sign) is the jQuery function (same as writing `jQuery`).
-- `selector` says **which** element(s).
-- `action` says **what to do**.
-
-**Document ready:** wrap code so it runs only after the page is loaded:
-
-```javascript
-$(document).ready(function () {
-  // your code
-});
-// short form:
-$(function () {
-  // your code
-});
-```
-
-**Analogy:** jQuery is like **UPI/GPay**. Earlier, paying someone needed many steps (bank details, IFSC, account number, transfer). GPay wraps all that into "scan and pay". jQuery wraps long JavaScript steps into short one-liners.
-
-### Code example
+Add jQuery **before** your own script, and put your code inside "document ready" so it runs after the page loads:
 
 ```html
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>First jQuery</title>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-  <h2 id="head">Hello</h2>
-  <p>This paragraph will disappear.</p>
-  <button id="hideBtn">Hide paragraph</button>
-  <button id="showBtn">Show paragraph</button>
+  <p>This paragraph will hide.</p>
+  <button id="hideBtn">Hide</button>
 
   <script>
-    $(document).ready(function () {
+    $(function () {              // short form of $(document).ready(...)
       $("#hideBtn").click(function () {
         $("p").hide();
       });
-      $("#showBtn").click(function () {
-        $("p").show();
-      });
-      $("#head").text("Hello from jQuery!");
     });
   </script>
 </body>
 </html>
 ```
 
-Because the jQuery file is loaded in `<head>` and our code waits for ready, this order is safe. The jQuery `<script src>` must come **before** your own code.
+**Real world:** WordPress themes, Bootstrap 3 sites and many college and government portals still use jQuery for menus, sliders and popups.
 
-### Real-world example
-
-Many older and current sites (Bootstrap 3 sites, WordPress themes, government and college portals) use jQuery for menus, sliders, popups and form checks. Around the world a very large share of websites still load jQuery.
-
-### Common mistakes
-
-- Loading your script before the jQuery file (`$ is not defined` error).
-- Forgetting `#` for id or `.` for class in the selector.
-- Not using document ready when the script is in `<head>`.
-- Being offline when using the CDN link (page cannot get jQuery).
-
-### Check your understanding
-
-1. What does `$` mean in jQuery?
-2. Why do we write `$(document).ready(...)`?
-3. Write the jQuery line to hide all `<h2>` elements.
+**Common mistake:** loading your script before jQuery gives the error `$ is not defined`.
 
 ---
 
-## 13. Finding Elements and jQuery Selection
+## 13. Selecting Elements
 
-### Simple explanation
+jQuery uses the same selectors as CSS.
 
-jQuery selectors use **CSS syntax** (you already know it from Module 1), plus a few extras.
-
-| Selector | Meaning |
+| Selector | Selects |
 |---|---|
-| `$("p")` | all paragraphs |
-| `$("#box")` | element with id `box` |
-| `$(".note")` | all with class `note` |
-| `$("p.note")` | `<p>` elements with class `note` |
-| `$("ul li")` | all `li` inside `ul` |
-| `$("ul > li")` | direct children `li` of `ul` |
-| `$("h1, h2, p")` | several selectors |
-| `$("*")` | everything |
-| `$("[href]")` | has `href` attribute |
-| `$("a[target='_blank']")` | attribute equals |
-| `$("li:first")` / `:last` | first / last match |
-| `$("li:even")` / `:odd` | even / odd (counting from 0) |
-| `$("li:eq(2)")` | the third item |
-| `$(":input")` | all form inputs |
-| `$(":checked")` | checked boxes and radios |
-| `$("p:contains('tea')")` | paragraphs with the word tea |
-| `$(this)` | the element that triggered the event |
+| `$("p")` | all `<p>` elements |
+| `$("#menu")` | element with id `menu` |
+| `$(".item")` | all elements with class `item` |
+| `$("ul li")` | `<li>` inside a `<ul>` |
+| `$("li:first")` | first `<li>` |
+| `$("input[type='text']")` | text boxes |
 
-Every selection returns a **jQuery object** (a list that can hold zero, one or many elements). Actions run on all of them at once. Check how many were found with `.length`.
-
-**Analogy:** A selector is a **WhatsApp group broadcast**. `$("p")` means "send to everyone in the paragraph group". `$("#box")` is a personal message to one person with a unique ID.
-
-### Code example
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Selectors</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <style>
-    .mark { background: yellow; }
-    li { padding: 3px; }
-  </style>
-</head>
-<body>
-  <h3 id="menuTitle">Menu</h3>
-  <ul id="menu">
-    <li class="veg">Idli</li>
-    <li class="veg">Dosa</li>
-    <li class="nonveg">Chicken Fry</li>
-    <li class="veg">Upma</li>
-    <li class="nonveg">Fish Curry</li>
-  </ul>
-  <p>Select by:</p>
-  <button id="b1">class .veg</button>
-  <button id="b2">first</button>
-  <button id="b3">even</button>
-  <button id="b4">contains "Fish"</button>
-  <button id="b5">clear</button>
-  <p id="info"></p>
-
-  <script>
-    $(function () {
-      $("#b1").click(function () {
-        let found = $(".veg");
-        found.addClass("mark");
-        $("#info").text(found.length + " veg items selected");
-      });
-      $("#b2").click(function () { $("#menu li:first").addClass("mark"); });
-      $("#b3").click(function () { $("#menu li:even").addClass("mark"); });
-      $("#b4").click(function () { $("li:contains('Fish')").addClass("mark"); });
-      $("#b5").click(function () { $("li").removeClass("mark"); $("#info").text(""); });
-    });
-  </script>
-</body>
-</html>
-```
-
-### Real-world example
-
-"Highlight all unread messages", "tick all checkboxes" (Select All in Gmail), and "show only veg dishes" on a food app are one selector plus one action.
-
-### Common mistakes
-
-- Using the same `id` on many elements (only the first is found).
-- Confusing `:eq(2)` (third item) with 2nd item.
-- Expecting a selector to throw an error when nothing matches (it silently matches nothing; check `.length`).
-- Quote problems inside selector strings.
-
-### Check your understanding
-
-1. Write selectors for: every `<li>` inside `#menu`; every element with class `error`; the first `<p>`.
-2. What does `$(this)` refer to?
-3. How can you find out how many elements a selector matched?
+**Analogy:** a selector is like a teacher calling "everyone in the last bench" or "roll number 12". It picks who should act.
 
 ---
 
-## 14. Getting Element Content
+## 14. Getting and Changing Content, Attributes and CSS
 
-### Simple explanation
+The same method **reads** when you give no value, and **writes** when you give a value.
 
-Three methods read (and write) content:
-
-| Method | Reads | Notes |
+| Task | Read | Write |
 |---|---|---|
-| `.text()` | Plain text only (tags removed) | Safe |
-| `.html()` | HTML inside, including tags | Be careful with user text |
-| `.val()` | Value of form fields (`input`, `textarea`, `select`) | Used in forms |
+| Text | `$("#a").text()` | `$("#a").text("Hi")` |
+| HTML | `$("#a").html()` | `$("#a").html("<b>Hi</b>")` |
+| Form value | `$("#name").val()` | `$("#name").val("Anu")` |
+| Attribute | `$("img").attr("src")` | `$("img").attr("src", "tea.jpg")` |
+| CSS | `$("p").css("color")` | `$("p").css("color", "blue")` |
+| Class | `$("p").hasClass("x")` | `addClass`, `removeClass`, `toggleClass` |
 
-Called **with no argument**, they **get**. Called **with an argument**, they **set** (change). When you select many elements, `.text()` and `.html()` as getters give a joined result for text, but `.html()` returns only from the first element.
-
-**Analogy:** Reading a **parcel**. `.html()` opens the box and shows the item with its packing material (tags). `.text()` tells you only what the item is. `.val()` reads what the customer wrote on the delivery slip (form field).
-
-### Code example
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Get content</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-</head>
-<body>
-  <p id="para">Special: <b>Masala</b> Dosa</p>
-  <input type="text" id="who" value="Anu">
-  <br><br>
-  <button id="t">Get text</button>
-  <button id="h">Get html</button>
-  <button id="v">Get value</button>
-  <p id="show"></p>
-
-  <script>
-    $(function () {
-      $("#t").click(function () {
-        $("#show").text("text(): " + $("#para").text());
-        // Special: Masala Dosa
-      });
-      $("#h").click(function () {
-        $("#show").text("html(): " + $("#para").html());
-        // Special: <b>Masala</b> Dosa
-      });
-      $("#v").click(function () {
-        $("#show").text("val(): " + $("#who").val());
-        // Anu
-      });
-    });
-  </script>
-</body>
-</html>
+```javascript
+$("#price").text("Rs. 20");
+$("#logo").attr("alt", "Chai Corner logo");
+$("p").css({ color: "blue", fontSize: "18px" });   // many CSS properties at once
 ```
 
-### Real-world example
-
-When you press "Search" on Flipkart, the site reads the search box using `.val()`. A "copy coupon" button reads the coupon text with `.text()`.
-
-### Common mistakes
-
-- Using `.text()` on an input (use `.val()`).
-- Reading `.val()` from a `<p>` (gives empty string).
-- Expecting `.html()` to give the HTML of all selected elements (only the first).
-
-### Check your understanding
-
-1. Difference between `.text()` and `.html()`?
-2. Which method reads what the user typed in a text box?
-3. What does `$("#a").html()` return if `#a` contains `<i>Hi</i>`?
+**Analogy:** `text()` is like reading the menu board; `text("new")` is like wiping it and writing a new price.
 
 ---
 
-## 15. Updating Elements and Changing Content
+## 15. Inserting New Elements
 
-### Simple explanation
-
-The same methods **set** content when you pass a value:
+| Method | Where it adds |
+|---|---|
+| `append()` | at the end, inside |
+| `prepend()` | at the start, inside |
+| `after()` | just after, outside |
+| `before()` | just before, outside |
+| `remove()` | deletes the element |
 
 ```javascript
-$("#msg").text("Order placed");
-$("#msg").html("<b>Order placed</b>");
-$("#name").val("Anu");
+$("#menu").append("<li>Samosa</li>");    // added at the bottom of the list
+$("#menu").prepend("<li>Tea</li>");      // added at the top
+$("#oldItem").remove();
 ```
 
-You can also pass a **function** to compute the new content for each element:
+**Real world:** new WhatsApp Web messages, or "Load more" products on Flipkart, are added to the page this way.
+
+---
+
+## 16. Looping with .each()
+
+`.each()` runs a function once for every selected element. `$(this)` is the current element.
 
 ```javascript
-$("li").text(function (index, oldText) {
-  return (index + 1) + ". " + oldText;
+$("li").each(function (index) {
+  $(this).text((index + 1) + ". " + $(this).text());   // numbers every list item
 });
 ```
 
-Other helpful ones: `.empty()` (remove all children, keep the element) and `.remove()` (remove the element itself). `.replaceWith()` swaps an element with new content.
-
-**Analogy:** Think of the **railway station display board**. The board stays fixed, but the train name and platform number change. `.text()` is the person changing the message on the board.
-
-### Code example
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Update content</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-</head>
-<body>
-  <h3 id="status">Order: Preparing</h3>
-  <ul id="items">
-    <li>Tea</li>
-    <li>Vada</li>
-    <li>Samosa</li>
-  </ul>
-  <input type="text" id="nameBox" placeholder="Your name">
-  <br><br>
-  <button id="b1">Mark delivered</button>
-  <button id="b2">Number the items</button>
-  <button id="b3">Fill name</button>
-  <button id="b4">Empty list</button>
-
-  <script>
-    $(function () {
-      $("#b1").click(function () {
-        $("#status").html("Order: <span style='color:green'>Delivered</span>");
-      });
-      $("#b2").click(function () {
-        $("#items li").text(function (i, old) {
-          return (i + 1) + ". " + old;
-        });
-      });
-      $("#b3").click(function () { $("#nameBox").val("Anu"); });
-      $("#b4").click(function () { $("#items").empty(); });
-    });
-  </script>
-</body>
-</html>
-```
-
-### Real-world example
-
-Swiggy's order tracking text ("Preparing", "Out for delivery", "Delivered"), live cricket score numbers, and "3 items in cart" badges update this way.
-
-### Common mistakes
-
-- Calling `.text("...")` expecting HTML tags to work (they show as plain text).
-- Pressing the button twice and applying "1. 1. Tea" (the function runs again on the new text).
-- Using `.empty()` when you meant `.remove()`.
-
-### Check your understanding
-
-1. What happens when `.text()` is given an argument?
-2. Difference between `.empty()` and `.remove()`?
-3. Write a line to set the value of `#city` to "Kochi".
+**Analogy:** a class teacher taking attendance, calling each student one by one.
 
 ---
 
-## 16. Inserting Elements and Adding New Content
+## 17. Events and the Event Object
 
-### Simple explanation
+An **event** is something the user does: click, typing, mouse over, submit.
 
-| Method | Where the new content goes |
+| Event | Fires when |
 |---|---|
-| `.append(x)` | **inside** the element, at the **end** |
-| `.prepend(x)` | **inside**, at the **start** |
-| `.after(x)` | **outside**, right **after** the element |
-| `.before(x)` | **outside**, right **before** the element |
-| `.appendTo(target)` | reverse form: `$(x).appendTo(target)` |
+| `click` | element is clicked |
+| `mouseenter` / `mouseleave` | mouse moves in / out |
+| `keyup` | a key is released |
+| `change` | a dropdown or box value changes |
+| `submit` | a form is submitted |
 
-`x` can be an HTML string (`"<li>New</li>"`), a DOM element or a jQuery object. You can also build elements: `$("<li>", { text: "New", class: "item" })`.
+Write them as `$("#btn").click(fn)` or `$("#btn").on("click", fn)`.
 
-Remove with `.remove()`. For elements added **later**, use event delegation: `$("#list").on("click", "li", fn)` (see Events).
-
-**Analogy:** A **train**. `.append` attaches a coach at the end, `.prepend` attaches one right behind the engine, `.before` and `.after` put something on the platform before or after the whole train.
-
-### Code example: dynamic list
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Insert elements</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <style>
-    #box { border: 1px solid #999; padding: 8px; width: 260px; }
-  </style>
-</head>
-<body>
-  <div id="box">
-    <p>Middle paragraph</p>
-  </div>
-  <br>
-  <button id="a">append</button>
-  <button id="p">prepend</button>
-  <button id="af">after</button>
-  <button id="bf">before</button>
-
-  <hr>
-  <input type="text" id="task" placeholder="New task">
-  <button id="add">Add to list</button>
-  <ul id="tasks"></ul>
-
-  <script>
-    $(function () {
-      $("#a").click(function ()  { $("#box").append("<p>Appended (end, inside)</p>"); });
-      $("#p").click(function ()  { $("#box").prepend("<p>Prepended (start, inside)</p>"); });
-      $("#af").click(function () { $("#box").after("<p>After the box (outside)</p>"); });
-      $("#bf").click(function () { $("#box").before("<p>Before the box (outside)</p>"); });
-
-      $("#add").click(function () {
-        let t = $("#task").val().trim();
-        if (t === "") { alert("Type a task"); return; }
-        let li = $("<li></li>").text(t);       // .text() keeps it safe
-        $("#tasks").append(li);
-        $("#task").val("").focus();
-      });
-
-      // delegation: works for items added later
-      $("#tasks").on("click", "li", function () {
-        $(this).remove();
-      });
-    });
-  </script>
-</body>
-</html>
-```
-
-### Real-world example
-
-New chat messages in WhatsApp Web, "load more" restaurants on Zomato, and new comments under a post are added with `append`.
-
-### Common mistakes
-
-- Mixing up inside (`append/prepend`) with outside (`after/before`).
-- Building HTML from user text with string joining and `.html()` (script injection risk). Use `.text()` for user content.
-- Attaching click handlers directly to items that do not exist yet (use delegation).
-
-### Check your understanding
-
-1. Difference between `append()` and `after()`?
-2. Write jQuery to add `<li>Ice</li>` at the start of `#cold`.
-3. Why does `$("#tasks").on("click","li",...)` work for new items but `$("li").click(...)` does not?
-
----
-
-## 17. Getting and Setting Attributes
-
-### Simple explanation
-
-**Attributes** are things like `src`, `href`, `alt`, `id`, `title`, `disabled`.
-
-| Task | Code |
-|---|---|
-| Get | `$("a").attr("href")` |
-| Set one | `$("img").attr("src", "b.png")` |
-| Set many | `$("img").attr({ src: "b.png", alt: "Tea" })` |
-| Remove | `$("a").removeAttr("title")` |
-| Properties (true/false things) | `$("#c").prop("checked")`, `.prop("disabled", true)` |
-| Classes | `.addClass()`, `.removeClass()`, `.toggleClass()`, `.hasClass()` |
-| Data attributes | `.data("price")` reads `data-price="12"` |
-
-Use `.prop()` for `checked`, `disabled` and `selected`. Use `.attr()` for the rest.
-
-**Analogy:** Attributes are like the **labels on a parcel** (address, phone, "fragile"). Changing the `src` of an image is like changing the sticker on the parcel; the box is the same.
-
-### Code example
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Attributes</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-</head>
-<body>
-  <a id="link" href="https://www.ktu.edu.in" title="KTU site">KTU Website</a>
-  <p id="info"></p>
-  <button id="get">Get href</button>
-  <button id="set">Change link</button>
-  <button id="rm">Remove title</button>
-
-  <hr>
-  <input type="text" id="txt" placeholder="Type here">
-  <button id="dis">Disable / Enable box</button>
-  <br><br>
-  <input type="checkbox" id="chk"> Accept
-  <button id="chkBtn">Is it ticked?</button>
-
-  <hr>
-  <button id="tea" data-name="Tea" data-price="10">Tea</button>
-  <span id="priceInfo"></span>
-
-  <script>
-    $(function () {
-      $("#get").click(function () {
-        $("#info").text("href = " + $("#link").attr("href"));
-      });
-      $("#set").click(function () {
-        $("#link").attr({
-          href: "https://www.google.com",
-          title: "Google"
-        }).text("Google");
-      });
-      $("#rm").click(function () { $("#link").removeAttr("title"); });
-
-      $("#dis").click(function () {
-        let isOff = $("#txt").prop("disabled");
-        $("#txt").prop("disabled", !isOff);
-      });
-      $("#chkBtn").click(function () {
-        alert($("#chk").prop("checked") ? "Yes, ticked" : "No, not ticked");
-      });
-
-      $("#tea").click(function () {
-        $("#priceInfo").text($(this).data("name") + " costs Rs. " + $(this).data("price"));
-      });
-    });
-  </script>
-</body>
-</html>
-```
-
-### Real-world example
-
-Changing a product image when you click a colour swatch on Flipkart (`attr("src", ...)`), disabling the "Pay" button until all fields are filled (`prop("disabled", true)`), and reading `data-id` of the clicked dish to add it to the cart.
-
-### Common mistakes
-
-- Using `.attr("checked")` to read the current state (use `.prop("checked")`).
-- Typing `$("img").attr("source", ...)` (wrong attribute name).
-- Forgetting that `.data("price")` reads `data-price`.
-
-### Check your understanding
-
-1. Write jQuery to change the `alt` of all images to "Photo".
-2. When do we use `.prop()` instead of `.attr()`?
-3. How do you read `data-id` from a button?
-
----
-
-## 18. Getting and Setting CSS Properties
-
-### Simple explanation
-
-Use `.css()`:
+The function gets an **event object** (usually called `e`) with details about what happened:
 
 ```javascript
-$("p").css("color");                       // get
-$("p").css("color", "blue");               // set one
-$("p").css({ color: "white", "background-color": "navy", padding: "8px" }); // many
-```
-
-Property names can be written as `"background-color"` or `backgroundColor`. Related: `.width()`, `.height()`, `.offset()`, `.addClass()` / `.removeClass()` / `.toggleClass()` (best way for bigger style changes, because the CSS stays in the style sheet).
-
-**Analogy:** `.css()` is a **sticky note of styling instructions** you stick on an element, such as "make this text blue". Using `addClass` is like handing the element a whole ready-made **uniform**.
-
-### Code example
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>CSS with jQuery</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <style>
-    .dark { background: #222; color: #fff; }
-    #card { padding: 20px; width: 280px; border: 2px solid teal; }
-  </style>
-</head>
-<body>
-  <div id="card">
-    <h3>Today's Offer</h3>
-    <p>Free sweet on orders above Rs. 300.</p>
-  </div>
-  <br>
-  <button id="b1">Blue text</button>
-  <button id="b2">Many styles</button>
-  <button id="b3">Read colour</button>
-  <button id="b4">Toggle dark class</button>
-  <button id="b5">Bigger width</button>
-  <p id="out"></p>
-
-  <script>
-    $(function () {
-      $("#b1").click(function () { $("#card p").css("color", "blue"); });
-      $("#b2").click(function () {
-        $("#card").css({
-          "background-color": "lightyellow",
-          "border-radius": "12px",
-          "font-family": "Georgia"
-        });
-      });
-      $("#b3").click(function () {
-        $("#out").text("Colour of paragraph: " + $("#card p").css("color"));
-        // browsers return it as rgb(...)
-      });
-      $("#b4").click(function () { $("#card").toggleClass("dark"); });
-      $("#b5").click(function () { $("#card").width($("#card").width() + 40); });
-    });
-  </script>
-</body>
-</html>
-```
-
-### Real-world example
-
-Turning a form field border red when it is invalid, switching dark mode on a site, highlighting the row of the table you hover over.
-
-### Common mistakes
-
-- Writing `background-color` without quotes inside an object (it needs quotes because of the dash).
-- Setting numbers without units for properties that need them as text (`"10px"`). jQuery adds `px` for plain numbers in many cases, but be clear.
-- Putting lots of styling in JavaScript instead of using classes.
-
-### Check your understanding
-
-1. How do you read the font size of a paragraph?
-2. Write one statement to set both `color` and `font-size` for `#title`.
-3. Why is `toggleClass` often better than many `.css()` calls?
-
----
-
-## 19. Using .each()
-
-### Simple explanation
-
-`.each()` loops over every element in a selection and runs a function on each one.
-
-```javascript
-$("li").each(function (index, element) {
-  // index = 0,1,2...
-  // element = the DOM element; $(this) or $(element) gives a jQuery object
+$("a").on("click", function (e) {
+  e.preventDefault();               // stop the link from opening
+  console.log(e.type, e.pageX, e.pageY);   // "click" and mouse position
 });
 ```
 
-- Inside, `this` is the current element. Use `$(this)` to apply jQuery methods.
-- `return false` inside `.each()` stops the loop (like `break`). `return true` skips to next (like `continue`).
-- `$.each(array, function(index, value){})` works on plain arrays and objects.
+**Analogy:** an event is the doorbell ringing; the event object is the doorbell camera telling you who pressed it and when.
 
-**Analogy:** A **teacher taking attendance**: she goes through each student on the list (`each`), reads the name (`this`), and marks present.
-
-### Code example
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>each()</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-</head>
-<body>
-  <ul id="cart">
-    <li data-price="10">Tea</li>
-    <li data-price="15">Coffee</li>
-    <li data-price="20">Samosa</li>
-  </ul>
-  <button id="total">Calculate total</button>
-  <button id="num">Number the items</button>
-  <p id="out"></p>
-
-  <script>
-    $(function () {
-      $("#total").click(function () {
-        let sum = 0;
-        $("#cart li").each(function () {
-          sum += Number($(this).data("price"));
-        });
-        $("#out").text("Total = Rs. " + sum);     // 45
-      });
-
-      $("#num").click(function () {
-        $("#cart li").each(function (i) {
-          $(this).prepend((i + 1) + ". ");
-        });
-      });
-
-      // $.each on an array
-      let colours = ["red", "green", "blue"];
-      $.each(colours, function (i, c) {
-        console.log(i + " => " + c);
-      });
-
-      // $.each on an object
-      $.each({ name: "Anu", age: 20 }, function (key, value) {
-        console.log(key + ": " + value);
-      });
-    });
-  </script>
-</body>
-</html>
-```
-
-### Real-world example
-
-Adding all item prices in a cart, checking every input in a form for emptiness, and numbering rows in a table.
-
-### Common mistakes
-
-- Using `this.text()` (this is a plain DOM element; write `$(this).text()`).
-- Using `return false` thinking it only skips (it stops the whole loop).
-- Using `.each()` when a single jQuery method already works on all elements (for example `$("p").hide()` needs no loop).
-
-### Check your understanding
-
-1. What are the two parameters of the `.each()` callback?
-2. How do you stop an `.each()` loop early?
-3. Why do we write `$(this)` inside `.each()`?
-
----
-
-## 20. Events
-
-### Simple explanation
-
-An **event** is something that happens on the page: a click, a key press, a mouse movement, a form submit. jQuery lets you attach a function (called an **event handler**) that runs when the event happens.
-
-| Group | Events |
-|---|---|
-| Mouse | `click`, `dblclick`, `mouseenter`, `mouseleave`, `mouseover`, `mouseout`, `hover` |
-| Keyboard | `keydown`, `keyup`, `keypress` (old) |
-| Form | `submit`, `change`, `focus`, `blur`, `input` |
-| Window/document | `ready`, `load`, `resize`, `scroll` |
-
-Two ways to attach:
+**Exam favourite: change a div's colour on mouse over and back on mouse out**
 
 ```javascript
-$("#btn").click(function () { ... });         // shortcut
-$("#btn").on("click", function () { ... });   // general, preferred
-$("#btn").off("click");                       // remove handler
-$("#btn").one("click", fn);                   // run only once
-$("#list").on("click", "li", fn);             // delegation (for later-added items)
-$("#box").hover(inFn, outFn);                 // mouse in and mouse out
+$("#box").mouseenter(function () {
+  $(this).css("background-color", "yellow");
+}).mouseleave(function () {
+  $(this).css("background-color", "white");
+});
 ```
-
-**Analogy:** An event is the **doorbell**. The handler is the **person who opens the door**. Nothing happens until someone rings.
-
-### Code example
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>jQuery events</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <style>
-    #box { width: 220px; height: 80px; background: lightblue; padding: 10px; }
-  </style>
-</head>
-<body>
-  <div id="box">Hover, click and double-click me</div>
-  <br>
-  <input type="text" id="tweet" maxlength="40" placeholder="Type (max 40)">
-  <span id="count">40 left</span>
-  <br><br>
-  <select id="city">
-    <option value="">Choose</option>
-    <option>Kochi</option>
-    <option>Trivandrum</option>
-  </select>
-  <p id="log"></p>
-
-  <script>
-    $(function () {
-      // hover: mouse in / mouse out
-      $("#box").hover(
-        function () { $(this).css("background-color", "orange"); },
-        function () { $(this).css("background-color", "lightblue"); }
-      );
-
-      $("#box").on("click", function () { $("#log").text("Clicked"); });
-      $("#box").dblclick(function () { $("#log").text("Double-clicked"); });
-
-      // keyup: live character counter
-      $("#tweet").on("keyup", function () {
-        let left = 40 - $(this).val().length;
-        $("#count").text(left + " left");
-      });
-
-      // change: dropdown
-      $("#city").change(function () {
-        $("#log").text("You chose: " + $(this).val());
-      });
-
-      // one(): only first time
-      $("#box").one("click", function () { console.log("First click only"); });
-    });
-  </script>
-</body>
-</html>
-```
-
-### Real-world example
-
-Search suggestions that appear while you type (keyup), a menu that opens on hover or click, "Place order" on click, and the WhatsApp message box enabling the send button when you type.
-
-### Common mistakes
-
-- Calling the function instead of passing it: `.click(doIt())` instead of `.click(doIt)`.
-- Adding the same handler many times, so it runs many times.
-- Using arrow functions and then expecting `this` to be the element (use normal `function`).
-- Using `.click()` for items created later (use delegation).
-
-### Check your understanding
-
-1. Name three mouse events and three keyboard/form events.
-2. What is event delegation and why is it used?
-3. Write jQuery to change the background colour of `#box` to red on mouseover and back to white on mouseout.
 
 ---
 
-## 21. The Event Object
+## 18. Effects and Animation
 
-### Simple explanation
-
-jQuery gives every handler an **event object** (often named `e` or `event`) with details about what happened.
-
-| Property / method | Meaning |
+| Effect | What it does |
 |---|---|
-| `e.type` | Name of event ("click") |
-| `e.target` | The element that was actually clicked |
-| `e.currentTarget` / `this` | The element the handler is attached to |
-| `e.pageX`, `e.pageY` | Mouse position on page |
-| `e.which` / `e.key` | Which key was pressed |
-| `e.preventDefault()` | Stop the browser's default action (link opening, form submitting) |
-| `e.stopPropagation()` | Stop the event moving up to parent elements ("bubbling") |
-| `e.timeStamp` | When it happened |
+| `hide()`, `show()`, `toggle()` | hide / show / switch |
+| `fadeIn()`, `fadeOut()`, `fadeToggle()` | slowly appear / disappear |
+| `slideUp()`, `slideDown()`, `slideToggle()` | roll up / roll down |
+| `animate({...}, time)` | smoothly change number-based CSS |
 
-**Bubbling:** an event on an inner element also goes up to its parents. A click on a button inside a div also triggers the div's click handler unless you stop it.
-
-**Analogy:** The event object is the **delivery receipt** that comes with a parcel: it tells you who sent it, where it was delivered, and at what time.
-
-### Code example
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Event object</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <style>
-    #pad { width: 300px; height: 120px; border: 2px dashed gray; padding: 6px; }
-    #outer { padding: 20px; background: #eef; width: 280px; }
-  </style>
-</head>
-<body>
-  <div id="pad">Move the mouse here</div>
-  <p id="pos"></p>
-
-  <a id="ktu" href="https://www.ktu.edu.in">KTU (click will be blocked)</a>
-
-  <br><br>
-  <input type="text" id="key" placeholder="Press keys here">
-  <p id="keyInfo"></p>
-
-  <div id="outer">Outer div
-    <button id="inner">Inner button</button>
-  </div>
-  <p id="bub"></p>
-
-  <script>
-    $(function () {
-      $("#pad").on("mousemove", function (e) {
-        $("#pos").text("X: " + e.pageX + ", Y: " + e.pageY);
-      });
-
-      $("#ktu").on("click", function (e) {
-        e.preventDefault();                       // link will not open
-        alert("Event type: " + e.type + ", target tag: " + e.target.tagName);
-      });
-
-      $("#key").on("keyup", function (e) {
-        $("#keyInfo").text("You pressed: " + e.key);
-        if (e.key === "Enter") {
-          $("#keyInfo").text("Enter pressed. Value = " + $(this).val());
-        }
-      });
-
-      // bubbling
-      $("#outer").on("click", function () { $("#bub").append("outer clicked. "); });
-      $("#inner").on("click", function (e) {
-        e.stopPropagation();       // remove this line to see both messages
-        $("#bub").append("inner clicked. ");
-      });
-    });
-  </script>
-</body>
-</html>
-```
-
-### Real-world example
-
-Drawing apps and image croppers use `pageX/pageY`. Pressing **Enter** to send a message in WhatsApp Web uses the key info from the event. Custom links that open a popup instead of a new page use `preventDefault()`.
-
-### Common mistakes
-
-- Forgetting to put `e` as a parameter and then using `e`.
-- Using `return false` in jQuery (it does both `preventDefault` and `stopPropagation`) when you only needed one.
-- Confusing `e.target` (what was clicked) with `this` (what has the handler).
-
-### Check your understanding
-
-1. What is the event object?
-2. What does `e.preventDefault()` do? Give one use.
-3. What is event bubbling?
-
----
-
-## 22. Effects
-
-### Simple explanation
-
-jQuery has ready-made visual effects. Most accept a speed (`"slow"`, `"fast"`, or milliseconds) and an optional callback function that runs when the effect finishes.
-
-| Group | Methods |
-|---|---|
-| Show/hide | `.show()`, `.hide()`, `.toggle()` |
-| Slide | `.slideDown()`, `.slideUp()`, `.slideToggle()` |
-| Fade | `.fadeIn()`, `.fadeOut()`, `.fadeToggle()`, `.fadeTo(speed, opacity)` |
-| Control | `.stop()`, `.delay(ms)` |
-
-**Analogy:** Effects are the **cinema theatre curtain** and lights. The screen is always there. `fade` is the lights dimming, `slide` is the curtain going up or down, `hide` is a sudden blackout.
-
-### Code example
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Effects</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <style>
-    #panel { background: #ffe8a3; padding: 15px; width: 300px; margin: 10px 0; }
-    #title { cursor: pointer; background: teal; color: white; padding: 8px; width: 300px; }
-  </style>
-</head>
-<body>
-  <button id="hide">Hide</button>
-  <button id="show">Show</button>
-  <button id="toggle">Toggle</button>
-  <button id="fin">Fade in</button>
-  <button id="fout">Fade out</button>
-  <button id="fto">Fade to 30%</button>
-
-  <div id="panel">Today's offer: Buy 2 Tea, get 1 Vada free!</div>
-
-  <div id="title">Click for FAQ (slide effect)</div>
-  <div id="faq" style="display:none; background:#eee; padding:10px; width:300px;">
-    Delivery takes 30 minutes. Pay by UPI or cash.
-  </div>
-
-  <p id="done"></p>
-
-  <script>
-    $(function () {
-      $("#hide").click(function () { $("#panel").hide(500); });
-      $("#show").click(function () { $("#panel").show("slow"); });
-      $("#toggle").click(function () { $("#panel").toggle(); });
-      $("#fin").click(function () { $("#panel").fadeIn(1000); });
-      $("#fout").click(function () {
-        $("#panel").fadeOut(1000, function () {
-          $("#done").text("Fade finished (callback ran)");
-        });
-      });
-      $("#fto").click(function () { $("#panel").fadeTo(800, 0.3); });
-
-      $("#title").click(function () { $("#faq").slideToggle("fast"); });
-    });
-  </script>
-</body>
-</html>
-```
-
-### Real-world example
-
-FAQ accordions, "back to top" buttons that fade in when you scroll down, notification banners that fade away after some seconds, dropdown menus that slide down.
-
-### Common mistakes
-
-- Starting a new effect while the old one is running, causing a queue (use `.stop()` first).
-- Forgetting `display:none` in CSS for something that should start hidden (or using `.hide()` at ready).
-- Treating the code after an effect as if it runs after the effect ends (it does not; use the callback).
-
-### Check your understanding
-
-1. Difference between `hide()` and `fadeOut()`?
-2. What does `slideToggle()` do?
-3. What is a callback in an effect? Why is it needed?
-4. Write jQuery to hide a paragraph when a button with id `btn` is clicked.
-
----
-
-## 23. Animating CSS Properties and Using Animation
-
-### Simple explanation
-
-`.animate()` changes **numeric** CSS properties smoothly over time.
+Time is in milliseconds (1000 = 1 second), or `"slow"` / `"fast"`.
 
 ```javascript
-$(selector).animate({ properties }, duration, easing, callback);
+$("#faq-answer").slideToggle("slow");                       // FAQ open/close
+$("#box").animate({ width: "300px", opacity: 0.5 }, 1000);  // grow and fade in 1 s
 ```
 
-- Properties must be **numbers** (`width`, `height`, `opacity`, `left`, `top`, `fontSize`, `marginLeft`). Colours need an extra plugin (jQuery UI).
-- Relative values are allowed: `left: "+=50px"`.
-- To move an element with `left/top` it needs `position: relative` or `absolute`.
-- Several `.animate()` calls on the same element run one after another (a **queue**).
-- `.stop()` stops the current animation; `.delay(ms)` waits.
-- For many effects, CSS animations are lighter, but `.animate()` is in the syllabus and is useful for learning.
+**Note:** `animate()` works only on number values (width, height, opacity, left). It cannot animate colours without a plugin.
 
-**Analogy:** A **cricket ball** going to the boundary. The start and end are fixed. The animation draws the path between them smoothly instead of teleporting the ball.
-
-### Code example
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>animate()</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <style>
-    #stage { width: 500px; height: 80px; border: 1px solid #999; position: relative; margin: 15px 0; }
-    #ball  { width: 50px; height: 50px; background: crimson; border-radius: 50%;
-             position: absolute; left: 0; top: 15px; }
-    #msg { font-size: 16px; }
-  </style>
-</head>
-<body>
-  <button id="go">Move right</button>
-  <button id="back">Back</button>
-  <button id="grow">Grow</button>
-  <button id="chain">Chain</button>
-  <button id="stop">Stop</button>
-
-  <div id="stage"><div id="ball"></div></div>
-  <p id="msg">Animate my font size</p>
-
-  <script>
-    $(function () {
-      $("#go").click(function () {
-        $("#ball").animate({ left: "450px" }, 1500, function () {
-          $("#msg").text("Reached the boundary!");
-        });
-      });
-      $("#back").click(function () { $("#ball").animate({ left: "0px" }, 1000); });
-      $("#grow").click(function () {
-        $("#ball").animate({ width: "+=20px", height: "+=20px" }, "fast");
-        $("#msg").animate({ fontSize: "30px" }, 600);
-      });
-      $("#chain").click(function () {
-        $("#ball")
-          .animate({ left: "200px" }, 600)
-          .animate({ top: "0px" }, 400)
-          .delay(300)
-          .animate({ opacity: 0.3 }, 500)
-          .animate({ left: "0px", top: "15px", opacity: 1 }, 800);
-      });
-      $("#stop").click(function () { $("#ball").stop(true); });
-    });
-  </script>
-</body>
-</html>
-```
-
-### Real-world example
-
-Image sliders and carousels on Flipkart or Amazon home pages, number counters that count up to "10,000 happy customers", progress bars filling up, and a cart icon that "jumps" when you add an item.
-
-### Common mistakes
-
-- Trying to animate non-numeric values like `color` or `display` (without a plugin).
-- Not giving `position` to the element when using `left/top`.
-- Clicking fast and filling the queue with many animations (use `.stop(true)` first).
-- Forgetting units in strings (`"450px"`).
-
-### Check your understanding
-
-1. Which kind of CSS properties can `.animate()` change?
-2. What does `.stop()` do? When is it useful?
-3. Write jQuery to make `#box` 300 pixels wide in 2 seconds.
+**Real world:** FAQ sections that slide open, and "Added to cart" messages that fade away.
 
 ---
 
-## 24. Traversing the DOM
+## 19. Traversing the DOM (Moving Around the Page Tree)
 
-### Simple explanation
-
-**Traversing** means moving through the DOM tree from one element to its relatives: parent, children, siblings.
-
-| Direction | Methods |
+| Method | Moves to |
 |---|---|
-| Up | `.parent()`, `.parents()`, `.parentsUntil()`, `.closest(sel)` |
-| Down | `.children()`, `.find(sel)` |
-| Sideways | `.siblings()`, `.next()`, `.prev()`, `.nextAll()`, `.prevAll()` |
-| Filtering | `.first()`, `.last()`, `.eq(n)`, `.filter(sel)`, `.not(sel)`, `.has(sel)` |
+| `parent()` | the element just above |
+| `children()` | elements just below |
+| `find("x")` | any matching element below |
+| `siblings()` | elements at the same level |
+| `next()` / `prev()` | the next / previous sibling |
 
-`.children()` looks only one level down; `.find()` searches all levels below. `.closest()` looks up from the element itself and returns the nearest ancestor that matches.
+```javascript
+$(".delete").click(function () {
+  $(this).parent().remove();    // remove the <li> that holds this button
+});
+```
 
-Methods can be **chained**: `$("li").first().next().addClass("hot")`.
+**Analogy:** a family tree. From yourself you can go to your parent, your children or your brothers and sisters.
 
-**Analogy:** Think of **family relations**: parent (up), children (down), siblings (sideways). From your own position (the element) you can say "my father's brother's son" (`.parent().siblings().children()`).
+---
 
-### Code example
+## 20. Working with Forms
+
+```javascript
+$("#regForm").submit(function (e) {
+  if ($("#name").val().trim() === "") {
+    e.preventDefault();                  // stop sending the form
+    $("#err").text("Name is required");
+  }
+});
+```
+
+Useful: `val()` reads a value, `$("#agree").is(":checked")` checks a checkbox, `$("#city").change(fn)` reacts to a dropdown.
+
+---
+
+## 21. JavaScript Libraries
+
+A **library** is code someone else wrote that you can reuse, so you don't write everything yourself.
+
+| Library | Used for |
+|---|---|
+| jQuery | page changes, events, effects |
+| Chart.js | charts and graphs |
+| Lodash | helper functions for arrays and objects |
+| Moment.js / Day.js | dates and times |
+| React (Module 4) | building user interfaces from components |
+
+**Analogy:** a library is like buying ready-made parotta from the shop instead of making the dough yourself.
+
+**Why jQuery is used less today:** modern JavaScript now has short built-in ways (`document.querySelector`, `classList`, `fetch`) for most things jQuery made easy. It is still common in older sites, so it is worth knowing.
+
+---
+
+## One page to try everything
+
+Save as `jquery-demo.html` and open it in Chrome.
 
 ```html
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Traversing</title>
+  <title>jQuery Demo</title>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <style>
-    .hl { background: gold; }
-    .card { border: 1px solid #aaa; padding: 8px; margin: 6px; width: 260px; }
+    #box { width: 120px; height: 60px; background: white; border: 1px solid #333; }
+    .done { text-decoration: line-through; color: gray; }
   </style>
 </head>
 <body>
-  <div class="card" id="c1">
-    <h4>Biryani</h4>
-    <p>Rs. 180</p>
-    <button class="order">Order</button>
-  </div>
-  <div class="card" id="c2">
-    <h4>Parotta</h4>
-    <p>Rs. 40</p>
-    <button class="order">Order</button>
-  </div>
-
-  <ul id="list">
-    <li>One</li>
-    <li id="two">Two</li>
-    <li>Three</li>
-    <li>Four</li>
+  <h2 id="title">Chai Corner Menu</h2>
+  <ul id="menu">
+    <li>Tea <button class="del">x</button></li>
+    <li>Coffee <button class="del">x</button></li>
   </ul>
-  <button id="t1">parent / children</button>
-  <button id="t2">siblings</button>
-  <button id="t3">next / prev</button>
-  <button id="t4">first / last / eq</button>
-  <button id="clr">clear</button>
-  <p id="out"></p>
+
+  <input id="newItem" placeholder="New item">
+  <button id="addBtn">Add</button>
+  <span id="err" style="color:red"></span>
+
+  <p>
+    <button id="blueBtn">Make paragraphs blue</button>
+    <button id="toggleBtn">Show / hide menu</button>
+  </p>
+  <p>Hover over the box:</p>
+  <div id="box"></div>
 
   <script>
     $(function () {
-      // From a button, climb to its own card, then read the sibling h4
-      $(".order").click(function () {
-        let card = $(this).closest(".card");          // up
-        let dish = card.find("h4").text();            // down
-        let price = $(this).prev("p").text();         // sideways (previous sibling)
-        $("#out").text("Ordered " + dish + " (" + price + ")");
-        card.siblings(".card").css("opacity", 0.4);   // sideways, other cards
-        card.css("opacity", 1);
-      });
+      // content
+      $("#title").text("Chai Corner Menu (jQuery)");
 
-      $("#t1").click(function () {
-        $("#two").parent().addClass("hl");            // the ul
-        $("#c1").children("h4").addClass("hl");
-      });
-      $("#t2").click(function () { $("#two").siblings().addClass("hl"); });
-      $("#t3").click(function () {
-        $("#two").next().addClass("hl");              // Three
-        $("#two").prev().addClass("hl");              // One
-      });
-      $("#t4").click(function () {
-        $("#list li").first().addClass("hl");
-        $("#list li").last().addClass("hl");
-        $("#list li").eq(2).addClass("hl");           // third item
-      });
-      $("#clr").click(function () { $(".hl").removeClass("hl"); $(".card").css("opacity", 1); });
-    });
-  </script>
-</body>
-</html>
-```
-
-### Real-world example
-
-On a Zomato list, each dish card has its own "Add" button. Clicking it uses `.closest(".card")` to find the right dish, then `.find(".price")` to read its price. Without traversing you would need a separate id for every button.
-
-### Common mistakes
-
-- Using `.parent()` when you need `.closest()` (nesting level may change).
-- Using `.children()` to search deep inside (it goes only one level; use `.find()`).
-- Forgetting that `.siblings()` does not include the element itself.
-
-### Check your understanding
-
-1. Difference between `.children()` and `.find()`?
-2. What does `.closest()` do?
-3. In a table, how do you get the row of a clicked delete button?
-
----
-
-## 25. Working with Forms
-
-### Simple explanation
-
-jQuery makes form work short:
-
-| Task | Code |
-|---|---|
-| Read a text box or select | `$("#name").val()` |
-| Set value | `$("#name").val("Anu")` |
-| Check a checkbox is ticked | `$("#c").is(":checked")` or `.prop("checked")` |
-| Selected radio value | `$("input[name='gender']:checked").val()` |
-| Selected dropdown text | `$("#city option:selected").text()` |
-| Submit event | `$("#form").on("submit", function(e){ ... })` |
-| Collect all fields | `$("#form").serialize()` gives `name=Anu&age=20` |
-| Disable/enable | `.prop("disabled", true/false)` |
-| Reset form | `$("#form")[0].reset()` |
-| Focus | `$("#name").focus()` |
-
-Validation with jQuery is the same idea as plain JavaScript: read values, check, show messages, and call `e.preventDefault()` if invalid.
-
-**Analogy:** The form is the **order slip at a restaurant**. jQuery is the waiter who quickly reads each box on the slip, checks that nothing is missing, and sends it to the kitchen only if complete.
-
-### Code example: validation with jQuery
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>jQuery form</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <style>
-    body { font-family: Arial; margin: 25px; }
-    .row { margin: 10px 0; }
-    .err { color: red; font-size: 13px; }
-    input.bad, select.bad { border: 2px solid red; }
-  </style>
-</head>
-<body>
-  <h3>Food Order</h3>
-  <form id="orderForm" novalidate>
-    <div class="row">Name: <input type="text" id="name"> <span class="err" id="e1"></span></div>
-    <div class="row">Email: <input type="text" id="email"> <span class="err" id="e2"></span></div>
-    <div class="row">City:
-      <select id="city">
-        <option value="">-- choose --</option>
-        <option value="KCH">Kochi</option>
-        <option value="TVM">Trivandrum</option>
-      </select>
-      <span class="err" id="e3"></span>
-    </div>
-    <div class="row">Payment:
-      <label><input type="radio" name="pay" value="UPI"> UPI</label>
-      <label><input type="radio" name="pay" value="COD"> Cash</label>
-      <span class="err" id="e4"></span>
-    </div>
-    <div class="row"><label><input type="checkbox" id="terms"> I accept the terms</label>
-      <span class="err" id="e5"></span></div>
-    <button type="submit">Place order</button>
-  </form>
-  <p id="result"></p>
-
-  <script>
-    $(function () {
-      // live: remove red border when typing
-      $("#name, #email").on("input", function () { $(this).removeClass("bad"); });
-
-      $("#orderForm").on("submit", function (e) {
-        e.preventDefault();
-        $(".err").text("");
-        $("input, select").removeClass("bad");
-        let ok = true;
-
-        let name = $("#name").val().trim();
-        if (name === "") { $("#e1").text("Name required"); $("#name").addClass("bad"); ok = false; }
-
-        let email = $("#email").val().trim();
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          $("#e2").text("Valid email required"); $("#email").addClass("bad"); ok = false;
+      // insert + form value
+      $("#addBtn").click(function () {
+        var name = $("#newItem").val().trim();
+        if (name === "") {
+          $("#err").text("Type an item first");
+          return;
         }
+        $("#err").text("");
+        $("#menu").append("<li>" + name + ' <button class="del">x</button></li>');
+        $("#newItem").val("");
+      });
 
-        if ($("#city").val() === "") { $("#e3").text("Choose a city"); $("#city").addClass("bad"); ok = false; }
+      // traversing + remove (on document so new buttons also work)
+      $(document).on("click", ".del", function () {
+        $(this).parent().fadeOut(300, function () { $(this).remove(); });
+      });
 
-        let pay = $("input[name='pay']:checked").val();
-        if (!pay) { $("#e4").text("Choose payment method"); ok = false; }
+      // CSS on all paragraphs
+      $("#blueBtn").click(function () {
+        $("p").css("color", "blue");
+      });
 
-        if (!$("#terms").is(":checked")) { $("#e5").text("Please accept"); ok = false; }
+      // effect
+      $("#toggleBtn").click(function () {
+        $("#menu").slideToggle();
+      });
 
-        if (ok) {
-          $("#result").html("Order placed for <b></b> in <i></i> via <u></u>.");
-          $("#result b").text(name);
-          $("#result i").text($("#city option:selected").text());
-          $("#result u").text(pay);
-          console.log($(this).serialize());   // name=...&email=...
-        } else {
-          $("#result").text("");
-        }
+      // mouse events
+      $("#box").mouseenter(function () {
+        $(this).css("background-color", "yellow");
+      }).mouseleave(function () {
+        $(this).css("background-color", "white");
       });
     });
   </script>
@@ -2616,104 +1629,18 @@ Validation with jQuery is the same idea as plain JavaScript: read values, check,
 </html>
 ```
 
-### Real-world example
-
-Login and signup forms everywhere, checkout forms (Flipkart address form), IRCTC passenger details, and "Select All" checkboxes.
-
-### Common mistakes
-
-- Using `.val()` on a checkbox to know if it is ticked (use `.is(":checked")`).
-- Forgetting `e.preventDefault()` in submit handler.
-- Reading a radio group with `$("input[name='pay']").val()` (gives first radio value, not selected one; use `:checked`).
-- `serialize()` skips fields without a `name` attribute.
-
-### Check your understanding
-
-1. How do you get the selected radio button's value?
-2. What does `.serialize()` do?
-3. Write jQuery to stop a form named `#f` from submitting if `#email` is empty.
-4. Which method tells you if a checkbox is ticked?
-
 ---
 
-## 26. JavaScript Libraries
+## Check your understanding (jQuery)
 
-### Simple explanation
+1. What does `$` mean, and why do we wrap code in `$(function () { ... })`?
+2. What is the difference between `text()` and `text("Hi")`?
+3. Write one line to add `<li>Vada</li>` at the end of `#menu`.
+4. What does `e.preventDefault()` do in a form submit handler?
+5. Name two effects and say what each does.
+6. In `$(this).parent().remove()`, what gets removed?
 
-A **library** is a collection of ready-made code that you can use in your project, so you do not write everything from scratch. You call the library's functions when you need them (you stay in control).
-
-A **framework** (like Angular) is bigger and tells you how to structure your whole app (it calls your code).
-
-Popular libraries:
-
-| Library | Use |
-|---|---|
-| jQuery | Easy DOM, events, animation, Ajax |
-| React | Build user interfaces from components |
-| Lodash | Helpers for arrays/objects |
-| Chart.js | Draw charts |
-| Moment.js / Day.js | Dates |
-| Axios | Make HTTP requests |
-| Bootstrap JS, jQuery UI | Popups, date pickers, drag and drop |
-
-Why use libraries?
-- Saves time (less code).
-- Tested by thousands of developers (fewer bugs).
-- Works the same on different browsers.
-- Large community and plugins.
-
-Cost: extra file to download (slower load), you must learn it, and you may use only a small part of it.
-
-How to add: via **CDN** (a link; fast, shared, cached) or by **downloading** the file and linking it locally (works offline). Always load the library **before** your own script. Put a fallback or use trusted sources.
-
-**Analogy:** Cooking at home: you can grind your own masala from raw spices (plain JavaScript), or buy a **ready-made masala packet** (library). The packet saves time, but you pay for what you may not fully use.
-
-### Code example: using two libraries
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Libraries</title>
-  <!-- Library 1: jQuery from CDN -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-</head>
-<body>
-  <p id="p">Libraries save time.</p>
-  <button id="b">Fade it</button>
-  <p id="check"></p>
-
-  <script>
-    // Check whether the library loaded properly
-    if (typeof jQuery === "undefined") {
-      document.getElementById("check").textContent = "jQuery failed to load!";
-    } else {
-      document.getElementById("check").textContent = "jQuery version: " + $.fn.jquery;
-      $("#b").click(function () { $("#p").fadeToggle(); });
-    }
-  </script>
-</body>
-</html>
-```
-
-### Real-world example
-
-Most e-commerce sites use libraries for sliders, date pickers (IRCTC journey date), charts (stock apps) and maps (Google Maps API). Modern React sites like many startup apps are built entirely on a library.
-
-### Common mistakes
-
-- Loading the same library twice (or two jQuery versions) causing conflicts.
-- Adding a heavy library for one small job.
-- Using a CDN with no internet in the lab.
-- Putting your script above the library script.
-
-### Check your understanding
-
-1. What is a JavaScript library? Name three.
-2. Give two advantages and two disadvantages of using a library.
-3. What is a CDN?
-4. Difference between a library and a framework?
+**Classroom activity (10 min):** give each pair one row of the tables above. They must write a one-line example and show it working in the demo page.
 
 ---
 
@@ -2833,7 +1760,7 @@ $("#btn").click(function () { $("#box").fadeToggle(); });
 
 # PART D: MINI-PROJECT: TEA SHOP BILL CALCULATOR
 
-**Goal:** a page where the user enters the customer name, picks items and quantities, and gets a bill with GST. It has form validation. We build it first in **plain JavaScript**, then improve it with **jQuery** (adding effects, dynamic list, and cleaner code).
+**Goal:** a page where the user enters the customer name, picks items and quantities, and gets a bill with GST. It has form validation. We build it in **plain JavaScript**. Version 2 is a short **jQuery** to-do list for practising selectors, events and effects.
 
 **Features:**
 1. Customer name and mobile number (validated).
@@ -3039,215 +1966,9 @@ Save as `teashop-js.html`.
 4. Add Tea again: quantity increases, no new row.
 5. Quantity `0` or `2.5`: error.
 
-## Version 2: Enhanced with jQuery
+## Version 2: jQuery To-do List (short)
 
-Same idea. Changes made with jQuery:
-- Shorter selection and event code.
-- Rows **fade in** when added and **fade out** when removed.
-- A live **"items in bill" counter** with a small animation.
-- Red border on invalid fields using `addClass`.
-- Mobile box accepts digits only while typing (live clean-up with `.on("input")`).
-- Confirmation before clear.
-
-Save as `teashop-jquery.html`.
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Chai Corner Bill (jQuery)</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <style>
-    body { font-family: Arial, sans-serif; background: #fff8ec; margin: 0; padding: 20px; }
-    .wrap { max-width: 640px; margin: auto; background: white; padding: 20px;
-            border-radius: 10px; box-shadow: 0 2px 8px #ccc; }
-    h1 { color: #8a4b08; text-align: center; margin-top: 0; }
-    .row { margin: 10px 0; }
-    label { display: inline-block; width: 120px; }
-    input, select { padding: 6px; }
-    .bad { border: 2px solid red; }
-    button { padding: 7px 14px; cursor: pointer; background: #8a4b08; color: white; border: none; border-radius: 4px; }
-    button.small { padding: 3px 8px; background: #b22; }
-    .error { color: red; font-size: 13px; margin-left: 120px; min-height: 16px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-    th, td { border: 1px solid #ddd; padding: 6px; text-align: center; }
-    th { background: #f3e0c2; }
-    .total td { font-weight: bold; }
-    #badge { display: inline-block; background: #2a7; color: white; border-radius: 12px;
-             padding: 2px 10px; position: relative; }
-    #banner { display: none; background: #dff5e1; padding: 8px; margin-top: 10px; border-radius: 4px; }
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <h1>Chai Corner</h1>
-    <div style="text-align:right">Items in bill: <span id="badge">0</span></div>
-
-    <div class="row"><label for="cname">Customer</label>
-      <input type="text" id="cname" placeholder="Name"></div>
-    <div class="error" id="errName"></div>
-
-    <div class="row"><label for="mobile">Mobile</label>
-      <input type="text" id="mobile" maxlength="10" placeholder="10 digits"></div>
-    <div class="error" id="errMobile"></div>
-
-    <div class="row"><label for="item">Item</label>
-      <select id="item">
-        <option value="">-- choose --</option>
-        <option value="Tea|10">Tea - Rs. 10</option>
-        <option value="Coffee|15">Coffee - Rs. 15</option>
-        <option value="Lemon Tea|12">Lemon Tea - Rs. 12</option>
-        <option value="Samosa|20">Samosa - Rs. 20</option>
-        <option value="Vada|12">Vada - Rs. 12</option>
-      </select></div>
-    <div class="error" id="errItem"></div>
-
-    <div class="row"><label for="qty">Quantity</label>
-      <input type="number" id="qty" value="1" min="1" style="width:70px">
-      <button id="addBtn">Add to bill</button>
-      <button id="clearBtn" style="background:#555">Clear</button></div>
-    <div class="error" id="errQty"></div>
-
-    <div id="banner"></div>
-
-    <table>
-      <thead><tr><th>Item</th><th>Price</th><th>Qty</th><th>Amount</th><th></th></tr></thead>
-      <tbody id="billBody"></tbody>
-      <tfoot id="billFoot"></tfoot>
-    </table>
-    <p id="msg"></p>
-  </div>
-
-  <script>
-    $(function () {
-      const GST_RATE = 0.05;
-      let bill = [];
-
-      // show/clear an error under a field; also mark the field
-      function setError(errSel, fieldSel, text) {
-        $(errSel).text(text);
-        $(fieldSel).toggleClass("bad", text !== "");
-        return text === "";
-      }
-
-      function validateCustomer() {
-        let name = $("#cname").val().trim();
-        let mobile = $("#mobile").val().trim();
-        let a = setError("#errName", "#cname", name === "" ? "Please enter customer name" : "");
-        let b = setError("#errMobile", "#mobile",
-                         /^[6-9]\d{9}$/.test(mobile) ? "" : "Enter a valid 10-digit mobile number");
-        return a && b;
-      }
-
-      function validateItem() {
-        let qty = Number($("#qty").val());
-        let a = setError("#errItem", "#item", $("#item").val() === "" ? "Please choose an item" : "");
-        let b = setError("#errQty", "#qty",
-                         (Number.isInteger(qty) && qty >= 1 && qty <= 50) ? "" : "Quantity must be a whole number 1 to 50");
-        return a && b;
-      }
-
-      function render() {
-        let $body = $("#billBody").empty();
-        let $foot = $("#billFoot").empty();
-        let subtotal = 0;
-        let count = 0;
-
-        $.each(bill, function (index, line) {
-          let amount = line.price * line.qty;
-          subtotal += amount;
-          count += line.qty;
-          $("<tr></tr>")
-            .append($("<td></td>").text(line.name))
-            .append($("<td></td>").text(line.price))
-            .append($("<td></td>").text(line.qty))
-            .append($("<td></td>").text(amount.toFixed(2)))
-            .append($("<td></td>").append(
-              $("<button class='small'>X</button>").attr("data-index", index)))
-            .hide()
-            .appendTo($body)
-            .fadeIn(300);
-        });
-
-        if (bill.length > 0) {
-          let gst = subtotal * GST_RATE;
-          $foot.append(
-            "<tr class='total'><td colspan='3'>Subtotal</td><td colspan='2'>Rs. " + subtotal.toFixed(2) + "</td></tr>" +
-            "<tr class='total'><td colspan='3'>GST (5%)</td><td colspan='2'>Rs. " + gst.toFixed(2) + "</td></tr>" +
-            "<tr class='total'><td colspan='3'>Grand Total</td><td colspan='2'>Rs. " + (subtotal + gst).toFixed(2) + "</td></tr>"
-          );
-        }
-        $("#badge").text(count)
-          .animate({ top: "-6px" }, 120)
-          .animate({ top: "0px" }, 120);
-      }
-
-      function flash(text) {
-        $("#banner").text(text).stop(true, true).fadeIn(200).delay(1500).fadeOut(400);
-      }
-
-      // digits only in the mobile box
-      $("#mobile").on("input", function () {
-        $(this).val($(this).val().replace(/\D/g, ""));
-      });
-
-      // clear red mark when the user changes the field
-      $("#cname, #mobile, #item, #qty").on("input change", function () {
-        $(this).removeClass("bad");
-      });
-
-      $("#addBtn").on("click", function () {
-        // run both so that all errors show together
-        let customerOk = validateCustomer();
-        let itemOk = validateItem();
-        if (!(customerOk && itemOk)) {
-          $("#msg").text("Please fix the errors above.");
-          return;
-        }
-        $("#msg").text("");
-
-        let parts = $("#item").val().split("|");
-        let name = parts[0], price = Number(parts[1]), qty = Number($("#qty").val());
-
-        let existing = bill.find(function (l) { return l.name === name; });
-        if (existing) { existing.qty += qty; }
-        else { bill.push({ name: name, price: price, qty: qty }); }
-
-        $("#qty").val(1);
-        $("#item").val("");
-        render();
-        flash(qty + " x " + name + " added");
-      });
-
-      // delegation for remove buttons
-      $("#billBody").on("click", "button", function () {
-        let index = Number($(this).data("index"));
-        $(this).closest("tr").fadeOut(250, function () {
-          bill.splice(index, 1);
-          render();
-        });
-      });
-
-      $("#clearBtn").on("click", function () {
-        if (bill.length === 0) { alert("The bill is already empty."); return; }
-        if (confirm("Clear the whole bill?")) { bill = []; render(); flash("Bill cleared"); }
-      });
-
-      render();
-    });
-  </script>
-</body>
-</html>
-```
-
-**Extension tasks for students (homework):**
-1. Add a discount coupon box (`TEA10` gives 10 percent off).
-2. Save the bill in `localStorage` so it stays after refresh (`localStorage.setItem("bill", JSON.stringify(bill))`).
-3. Add a "Print bill" button using `window.print()`.
-4. Change the project into a **to-do list**: input, add, tick as done, delete, count remaining.
-
-### Alternative small project: To-do list (quick version, jQuery)
+Save as `todo-jquery.html`.
 
 ```html
 <!DOCTYPE html>
