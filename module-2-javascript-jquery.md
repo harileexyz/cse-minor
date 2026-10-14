@@ -4,1322 +4,592 @@
 **Programme:** B.Tech CSE Minor, KTU, Semester 5
 **Module:** 2 of the syllabus (11 contact hours)
 
+This module is written for students who know basic HTML and CSS (Module 1) but are **new to JavaScript**. Teach one idea at a time, run the example, then let students change it.
+
+**How to run every example:** save the code as `something.html`, double-click to open it in Chrome. Press `F12` and open the **Console** tab to see `console.log` messages and errors.
+
 ---
 
-## Table of Contents
+## Contents
 
 **Part A: JavaScript**
-1. Introduction to Scripting
-2. Programming Fundamentals: Variables, Data Types, Operators
-3. Obtaining User Input: prompt, alert, confirm
+1. Introduction to scripting
+2. Programming fundamentals: variables, data types, operators
+3. Obtaining user input with prompt dialogues
 4. Arithmetic
-5. Decision Making
-6. Control Statements (if/else, switch, loops, break/continue)
+5. Decision making
+6. Control statements (loops)
 7. Functions
 8. Arrays
 9. Objects
 10. Document Object Model (DOM)
-11. Form Processing (Validation)
+11. Form processing
 
-**Part B: jQuery (short version)**
-12. What is jQuery? A Basic Example
-13. Selecting Elements
-14. Getting and Changing Content, Attributes and CSS
-15. Inserting New Elements
-16. Looping with .each()
-17. Events and the Event Object
-18. Effects and Animation
+**Part B: jQuery**
+12. What is jQuery? A basic example
+13. Selecting elements
+14. Getting and changing content, attributes and CSS
+15. Inserting new elements
+16. Looping with `.each()`
+17. Events and the event object
+18. Effects and animation
 19. Traversing the DOM
-20. Working with Forms
-21. JavaScript Libraries
+20. Working with forms
+21. JavaScript libraries
 
-**Part C: Plain JavaScript vs jQuery**
-**Part D: Mini-Projects (Tea Shop Bill in JavaScript, To-do List in jQuery)**
-**Part E: Question Bank (KTU style)**
+**Part C:** Mini-project and exam questions
 
----
+## Suggested lesson plan
 
-## Learning Outcomes
-
-After this module, a student will be able to:
-
-1. Explain what a scripting language is and why web pages need JavaScript.
-2. Use variables (`var`, `let`, `const`), data types and operators correctly.
-3. Take input from the user with `prompt`, `confirm` and show output with `alert`.
-4. Write programs using `if/else`, `switch`, `for`, `while`, `do-while`, `break` and `continue`.
-5. Write and call functions; store data in arrays and objects.
-6. Use the DOM to read and change a web page from JavaScript.
-7. Validate a form before it is submitted.
-8. Use jQuery to select elements, change content, attributes and CSS, handle events, and add effects and animations.
-9. Traverse the DOM and work with forms using jQuery.
-10. Explain what a JavaScript library is and why we use one.
-
-## Suggested Lesson Plan (11 contact hours)
-
-| Session | Time | Topics | Style |
-|---|---|---|---|
-| 1 | 1 hr | Introduction to scripting, where to put JS, console, variables, data types | Talk + live demo |
-| 2 | 1 hr | Operators, arithmetic, prompt/alert/confirm | Demo + 10 min activity |
-| 3 | 1 hr | Decision making: if/else, switch | Examples + pair work |
-| 4 | 1 hr | Loops, break/continue | Examples + pattern printing |
-| 5 | 1 hr | Functions, arrays, objects | Demo + quiz |
-| 6 | 1 hr | DOM + events in plain JS | Live coding |
-| 7 | 1 hr | Form processing and validation | Lab style |
-| 8 | 1 hr | jQuery basics, selectors, content, attributes, CSS | Demo + comparisons |
-| 9 | 1 hr | Insert elements, each(), events, event object | Demo + activity |
-| 10 | 1 hr | Effects, animation, traversing, forms, libraries | Demo |
-| 11 | 1 hr | Mini-project (tea shop bill) + question bank revision | Lab + discussion |
-
-Each one-hour session suggestion: 10 min recap and warm-up, 30 min teaching with live code, 15 min student activity, 5 min check-your-understanding questions.
-
-**How to run the code:** Save any example as `something.html`, then double-click to open in Chrome. Press `F12` to open the Developer Tools, then the Console tab to see `console.log` messages and errors.
+| Class | Topics |
+|---|---|
+| 1 | Scripting, variables, data types |
+| 2 | Operators, arithmetic, prompt dialogues |
+| 3 | Decision making |
+| 4 | Loops |
+| 5 | Functions, arrays |
+| 6 | Objects, DOM |
+| 7 | Form processing |
+| 8 | jQuery basics, selecting, content, attributes, CSS |
+| 9 | Inserting, `.each()`, events |
+| 10 | Effects, traversing, forms, libraries |
+| 11 | Mini-project and exam questions |
 
 ---
 
 # PART A: JAVASCRIPT
 
----
-
 ## 1. Introduction to Scripting
 
-### Simple explanation
+**HTML** gives a page its content. **CSS** gives it style. **JavaScript** makes it **do things**: react to clicks, check forms, change content without reloading.
 
-HTML builds the structure of a page. CSS makes it look good. **JavaScript makes it do things.**
+**Analogy:** a TV. HTML is the screen and cabinet, CSS is the colours and picture settings, JavaScript is the remote control that makes things happen.
 
-A **script** is a small set of instructions that the browser reads and runs, line by line. A language used for such scripts is a **scripting language**. JavaScript is the scripting language of the web. It runs inside the browser on the user's own computer or phone (this is called **client-side** scripting). No extra software is needed. Every browser already has a JavaScript engine (Chrome has one called V8).
+A **script** is a small program that runs inside the browser. **Scripting** means writing such programs.
 
-What can JavaScript do on a page?
-- Check a form before sending it.
-- Show or hide things (menus, popups).
-- Change text, images and colours without reloading the page.
-- React when the user clicks, types or scrolls.
-- Talk to a server in the background (for example, to refresh a score).
+**Three ways to add JavaScript:**
 
-Note: Java and JavaScript are two different languages. Their names are similar only because of marketing history.
+```html
+<!-- 1. Inside the page -->
+<script>
+  console.log("Hello from the page");
+</script>
 
-### Three ways to add JavaScript
+<!-- 2. In an external file (best for real sites) -->
+<script src="script.js"></script>
 
-1. **Inline** (inside an HTML tag): quick, but messy.
-2. **Internal** (inside a `<script>` tag in the same file).
-3. **External** (a separate `.js` file linked with `src`). This is the best method for real projects.
+<!-- 3. Inside a tag (for tiny jobs) -->
+<button onclick="alert('Clicked!')">Click me</button>
+```
 
-### Analogy
-
-Think of a **tea shop**. HTML is the shop's building: counter, shelves, stove. CSS is the paint and the signboard. JavaScript is the **tea master** who actually does things: takes your order, makes the tea, gives the bill. Without him the shop looks good but nothing happens.
-
-### Code example
+**First program:**
 
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>My First Script</title>
-</head>
+<head><title>First JS</title></head>
 <body>
-  <h1>Welcome to Chai Point</h1>
-  <p id="msg">This text will change.</p>
-
-  <!-- 1. Inline JavaScript -->
-  <button onclick="alert('Inline: Hello!')">Inline click</button>
-
-  <!-- 2. Internal JavaScript -->
+  <h2 id="msg">Hello</h2>
   <script>
-    console.log("Page loaded");                    // shows in the Console
-    document.write("<p>Written by JavaScript</p>"); // writes into the page
-    document.getElementById("msg").innerHTML = "Text changed by JavaScript!";
+    console.log("Page loaded");
+    document.getElementById("msg").innerHTML = "Hello from JavaScript!";
   </script>
-
-  <!-- 3. External JavaScript (needs a file named app.js in the same folder) -->
-  <!-- <script src="app.js"></script> -->
 </body>
 </html>
 ```
 
-Note: the script is placed at the **end of body** so the elements already exist when the script looks for them.
+**Real world:** the "Add to cart" button, the live seat count on IRCTC, and the "like" heart on Instagram are all JavaScript.
 
-Comments in JavaScript:
-
-```javascript
-// single line comment
-/* multi
-   line comment */
-```
-
-### Real-world example
-
-When you type the wrong OTP on a bank or UPI page and a red message appears instantly without the page reloading, that is JavaScript. Google Maps moving as you drag is JavaScript. The "Add to cart" count going up on Flipkart is JavaScript.
-
-### Common mistakes
-
-- Putting the script in `<head>` and then looking for elements that are not loaded yet.
-- Forgetting the closing `</script>`.
-- Mixing up Java and JavaScript.
+**Common mistakes:**
+- Putting `<script>` before the element it uses. Put scripts at the **end of the body**.
+- Mixing up `"` and `'` quotes.
 - Not opening the Console, so errors stay hidden.
 
 ### Check your understanding
+1. What is the role of JavaScript on a web page?
+2. Name two ways to add JavaScript to a page.
 
-1. What is a scripting language? Name where JavaScript runs.
-2. List the three ways of adding JavaScript to an HTML page.
-3. Why do we usually keep the `<script>` tag at the end of `<body>`?
-
----
-
-## 2. Programming Fundamentals: Variables, Data Types, Operators
+## 2. Programming Fundamentals
 
 ### 2.1 Variables
 
-A **variable** is a named box that holds a value. You can use the name later to get the value back.
+A **variable** is a named box that holds a value.
 
-JavaScript gives three keywords to make a variable:
-
-| Keyword | Can change value? | Scope (where it works) | Notes |
-|---|---|---|---|
-| `var` | Yes | Whole function | Old style. Can be re-declared. Avoid in new code. |
-| `let` | Yes | Only inside its `{ }` block | Modern. Use for values that change. |
-| `const` | No (cannot be reassigned) | Only inside its `{ }` block | Use for values that never change. |
-
-Rules for names: start with a letter, `_` or `$`; no spaces; case matters (`Total` and `total` are different); cannot use reserved words like `if` or `class`. Style: `camelCase`, for example `totalAmount`.
-
-**Analogy:** A variable is a **steel tiffin box with a label**. `let` is a box where you can change the food. `const` is a **sealed box**: label and food are fixed. `var` is an old box that sometimes leaks outside its shelf (scope problems).
-
-```html
-<!DOCTYPE html>
-<html>
-<body>
-<script>
-  var oldWay = "I am var";
-  let age = 20;              // can change
-  const college = "CET";     // cannot change
-
-  age = 21;                  // fine
-  // college = "MEC";        // ERROR: Assignment to constant variable
-
-  console.log(oldWay, age, college);
-
-  // Scope difference
-  if (true) {
-    var a = 1;   // visible outside the block
-    let b = 2;   // visible only inside the block
-  }
-  console.log(a);            // 1
-  // console.log(b);         // ERROR: b is not defined
-</script>
-</body>
-</html>
+```javascript
+let name = "Anu";        // can change later
+const pi = 3.14;         // cannot change
+var old = 10;            // old style, avoid
+name = "Rahul";          // fine
+console.log(name, pi);
 ```
+
+Rules for names: start with a letter, `_` or `$`; no spaces; case matters (`age` and `Age` are different). Use meaningful names like `totalMarks`.
+
+**Analogy:** a labelled steel container in the kitchen. The label is the name; what is inside can change (`let`) or is sealed (`const`).
 
 ### 2.2 Data types
 
 | Type | Example | Meaning |
 |---|---|---|
-| Number | `42`, `3.14` | Whole and decimal numbers (one type for both) |
-| String | `"Kerala"`, `'tea'` | Text |
-| Boolean | `true`, `false` | Yes or no |
-| Undefined | `let x;` | Variable made but no value given |
-| Null | `null` | Value deliberately empty |
-| Object | `{name:"Anu"}`, arrays | Collection of values |
-| Symbol, BigInt | rare | Not needed for this course |
+| Number | `25`, `3.5` | whole and decimal numbers |
+| String | `"hello"` | text |
+| Boolean | `true`, `false` | yes or no |
+| Undefined | `let x;` | variable with no value yet |
+| Null | `null` | deliberately empty |
 
-JavaScript is **dynamically typed**: you do not write the type. The same variable can hold a number now and a string later. Use `typeof` to check the type.
-
-**Analogy:** Think of a **WhatsApp message**. It can be text, a number in the text, a yes/no reaction (thumbs up), or empty (a deleted message: `null`). Messages that are not yet written are `undefined`.
-
-```html
-<!DOCTYPE html>
-<html>
-<body>
-<script>
-  let price = 15;             // number
-  let item = "Chai";          // string
-  let isHot = true;           // boolean
-  let sugar;                  // undefined
-  let discount = null;        // null
-  let student = { name: "Anu", roll: 12 };   // object
-  let marks = [80, 90, 75];   // array (also an object)
-
-  console.log(typeof price);     // number
-  console.log(typeof item);      // string
-  console.log(typeof isHot);     // boolean
-  console.log(typeof sugar);     // undefined
-  console.log(typeof discount);  // object  (a famous old quirk)
-  console.log(typeof student);   // object
-  console.log(typeof marks);     // object
-
-  // Strings: joining and template literals
-  let msg1 = "Order: " + item + " Rs." + price;
-  let msg2 = `Order: ${item} Rs.${price}`;    // backticks, easier
-  console.log(msg1);
-  console.log(msg2);
-  console.log(item.length);          // 4
-  console.log(item.toUpperCase());   // CHAI
-</script>
-</body>
-</html>
+```javascript
+let age = 20;
+let city = "Kochi";
+let passed = true;
+console.log(typeof age);     // number
+console.log(typeof city);    // string
 ```
+
+Join strings with `+`: `"Hello " + city` gives `Hello Kochi`.
 
 ### 2.3 Operators
 
-| Group | Operators | Example |
+| Kind | Operators | Example |
 |---|---|---|
-| Arithmetic | `+ - * / % **` | `7 % 3` gives 1 |
-| Assignment | `= += -= *= /= %=` | `x += 5` means `x = x + 5` |
-| Increment/Decrement | `++ --` | `count++` |
-| Comparison | `== === != !== > < >= <=` | `5 === "5"` is false |
-| Logical | `&&` (and), `\|\|` (or), `!` (not) | `age>=18 && hasId` |
-| String | `+` (join) | `"Hi " + "Anu"` |
-| Ternary | `cond ? a : b` | `marks>=40 ? "Pass":"Fail"` |
+| Arithmetic | `+ - * / % ` | `7 % 3` is `1` |
+| Assignment | `= += -=` | `x += 5` means `x = x + 5` |
+| Comparison | `== === != !== > < >= <=` | `5 > 3` is `true` |
+| Logical | `&& \|\| !` | and, or, not |
+| Increase / decrease | `++ --` | `count++` |
 
-Very important: `==` compares values after changing types (loose). `===` compares value **and** type (strict). Always prefer `===`.
+**`==` versus `===`:** `"5" == 5` is `true` (compares value only). `"5" === 5` is `false` (compares value and type). **Always use `===`.**
 
-```html
-<!DOCTYPE html>
-<html>
-<body>
-<script>
-  console.log(5 == "5");    // true  (loose, type ignored)
-  console.log(5 === "5");   // false (strict, types differ)
-  console.log(5 !== "5");   // true
-
-  let age = 20, hasId = true;
-  console.log(age >= 18 && hasId);   // true
-  console.log(age < 18 || hasId);    // true
-  console.log(!hasId);               // false
-
-  let marks = 52;
-  let result = marks >= 40 ? "Pass" : "Fail";
-  console.log(result);               // Pass
-
-  let n = 5;
-  n++;            // 6
-  n += 10;        // 16
-  console.log(n);
-
-  console.log("5" + 3);   // "53"  (string joining)
-  console.log("5" - 3);   // 2     (converted to number)
-</script>
-</body>
-</html>
-```
-
-### Real-world example
-
-On Swiggy, `const deliveryFee = 40;` stays fixed for an order, while `let cartTotal` keeps changing as you add dishes. The check "is the cart total above Rs. 199?" uses a comparison operator, and "is the user logged in AND is the address saved?" uses `&&`.
-
-### Common mistakes
-
-- Using `=` (assign) instead of `===` (compare) inside `if`.
-- Expecting `"5" + 3` to be 8.
-- Trying to change a `const` value.
-- Writing `Let` or `CONST` (keywords are case sensitive).
-- Believing `typeof null` is `"null"`.
+**Common mistakes:**
+- Using `=` (store) when you mean `===` (compare).
+- Forgetting that `"5" + 3` gives `"53"` (text joining), not `8`.
 
 ### Check your understanding
+1. What is the difference between `let` and `const`?
+2. What does `"10" + 5` give? What does `"10" - 5` give?
+3. What is the difference between `==` and `===`?
 
-1. Difference between `let`, `const` and `var`?
-2. What will `console.log("10" + 5)` and `console.log("10" - 5)` print? Why?
-3. Difference between `==` and `===`? Give an example.
-4. What is the output of `typeof undefined`?
+## 3. Obtaining User Input with Prompt Dialogues
 
-### Classroom activity: "Predict the output" (5 min)
+JavaScript has three **dialog boxes**:
 
-Show on the board, ask students to guess before running:
-`console.log(2 + "2")`, `console.log(2 * "3")`, `console.log(10 % 4)`, `console.log(true + 1)`, `console.log(0 == false)`.
-(Answers: `"22"`, `6`, `2`, `2`, `true`.)
-
----
-
-## 3. Obtaining User Input: prompt, alert, confirm
-
-### Simple explanation
-
-JavaScript has three small built-in popup boxes (called **dialogs**).
-
-| Function | Purpose | Buttons | Returns |
-|---|---|---|---|
-| `alert(msg)` | Show a message | OK | nothing (`undefined`) |
-| `confirm(msg)` | Ask a yes/no question | OK, Cancel | `true` or `false` |
-| `prompt(msg, default)` | Ask the user to type something | OK, Cancel, text box | the typed **string**, or `null` if Cancel |
-
-Important: `prompt()` **always returns a string**, even if the user types a number. Convert it using `Number()`, `parseInt()` or `parseFloat()`.
-
-**Analogy:** At a **railway counter**: `alert` is the announcement "Train is 20 minutes late" (you can only listen and say OK). `confirm` is the clerk asking "Cancel the ticket? Yes or No". `prompt` is the clerk asking "What is your name?" and writing down your answer on a form.
-
-### Code example
+| Dialog | Use | Returns |
+|---|---|---|
+| `alert("text")` | Show a message with OK | nothing |
+| `prompt("question", "default")` | Ask the user to **type** something | the text typed (or `null` if Cancel) |
+| `confirm("question")` | Ask OK or Cancel | `true` or `false` |
 
 ```html
-<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>Dialogs</title></head>
-<body>
-<h2>Dialog boxes demo</h2>
 <script>
-  // prompt returns a string (or null on Cancel)
-  let name = prompt("Enter your name:", "Student");
+  let name = prompt("What is your name?");
+  alert("Hello, " + name + "!");
 
-  if (name === null || name.trim() === "") {
-    alert("You did not enter a name.");
+  let sure = confirm("Do you want to continue?");
+  if (sure) {
+    alert("Great, let us continue");
   } else {
-    // second input, converted to number
-    let ageText = prompt("Enter your age:");
-    let age = Number(ageText);
-
-    if (isNaN(age)) {
-      alert("Age must be a number!");
-    } else {
-      let ok = confirm("Hello " + name + ", you are " + age + ". Is this correct?");
-      if (ok) {
-        alert("Thank you, details saved.");
-        document.write("<p>Name: " + name + ", Age: " + age + "</p>");
-      } else {
-        alert("Okay, please refresh and try again.");
-      }
-    }
+    alert("Stopped");
   }
 </script>
-</body>
-</html>
 ```
 
-### prompt() versus alert()
+**Important:** `prompt` always gives back **text**. To use it as a number, convert it:
 
-| Point | `alert()` | `prompt()` |
-|---|---|---|
-| Purpose | Only shows information | Takes input from user |
-| Text box | No | Yes |
-| Buttons | OK only | OK and Cancel |
-| Return value | `undefined` | String typed by user, or `null` if Cancel |
-| Example | `alert("Saved!");` | `let n = prompt("Name?");` |
+```javascript
+let age = Number(prompt("Enter your age"));
+alert("Next year you will be " + (age + 1));
+```
 
-### Real-world example
+**`prompt()` versus `alert()` (exam point):** `alert` only **shows** a message and returns nothing. `prompt` **asks for input** and returns what the user typed.
 
-Many old sites use `confirm("Are you sure you want to delete?")` before deleting. Modern sites use fancy popups, but they follow the same idea: ask, then act on true or false. `alert` is often used for quick messages like "Form submitted". Real sites rarely use `prompt`, because it looks plain and blocks the page, but it is excellent for learning.
+**Analogy:** `alert` is a loudspeaker announcement (one way). `prompt` is a counter clerk asking "Name, please?" (two way).
 
-### Common mistakes
-
-- Adding two prompt values directly: `"5" + "3"` gives `"53"`, not 8.
-- Not handling `null` when the user presses Cancel (then `null.trim()` crashes).
-- Using many alerts, which annoys users.
-- Forgetting that these dialogs **stop** the page until closed.
-
-### Check your understanding
-
-1. What does `confirm()` return?
-2. User types `25` in a prompt. What is the type of the value you get back?
-3. Write code that asks for the user's name and greets them with an alert.
-4. What does `prompt()` return when the user clicks Cancel?
-
----
+**Common mistakes:** adding two prompted numbers without `Number(...)`, so `"5" + "3"` gives `"53"`.
 
 ## 4. Arithmetic
 
-### Simple explanation
-
-JavaScript can do all normal maths. Remember **operator precedence** (order): brackets first, then `**`, then `* / %`, then `+ -`. Use brackets when unsure.
-
-Useful `Math` helpers:
-
-| Code | Result |
-|---|---|
-| `Math.round(4.6)` | 5 |
-| `Math.floor(4.9)` | 4 (round down) |
-| `Math.ceil(4.1)` | 5 (round up) |
-| `Math.sqrt(25)` | 5 |
-| `Math.pow(2,3)` | 8 |
-| `Math.max(3,9,5)` | 9 |
-| `Math.min(3,9,5)` | 3 |
-| `Math.abs(-7)` | 7 |
-| `Math.random()` | random number from 0 up to (not including) 1 |
-| `(3.14159).toFixed(2)` | `"3.14"` (a string) |
-
-Division by zero gives `Infinity`, not an error. Wrong maths such as `"abc" * 2` gives `NaN` (Not a Number). Test with `isNaN(x)`.
-
-Float surprise: `0.1 + 0.2` gives `0.30000000000000004`. Use `toFixed(2)` for money.
-
-**Analogy:** The JavaScript calculator is like the **UPI/GPay split bill** feature: you give amounts and the number of friends, it does the maths, and you round the result to rupees and paise.
-
-### Code example: simple calculator with prompts
-
-```html
-<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>Arithmetic</title></head>
-<body>
-<script>
-  let a = parseFloat(prompt("Enter first number:"));
-  let b = parseFloat(prompt("Enter second number:"));
-
-  if (isNaN(a) || isNaN(b)) {
-    document.write("Please enter valid numbers.");
-  } else {
-    document.write("<h3>Results</h3>");
-    document.write("Sum: " + (a + b) + "<br>");
-    document.write("Difference: " + (a - b) + "<br>");
-    document.write("Product: " + (a * b) + "<br>");
-    document.write("Quotient: " + (b !== 0 ? (a / b).toFixed(2) : "Cannot divide by zero") + "<br>");
-    document.write("Remainder: " + (a % b) + "<br>");
-    document.write("a power b: " + Math.pow(a, b) + "<br>");
-    document.write("Bigger: " + Math.max(a, b) + "<br>");
-  }
-
-  // Split-bill example (GPay style)
-  const bill = 1250;
-  const friends = 4;
-  console.log("Each pays Rs. " + (bill / friends).toFixed(2));  // 312.50
-
-  // Random number between 1 and 6 (dice)
-  let dice = Math.floor(Math.random() * 6) + 1;
-  console.log("Dice: " + dice);
-</script>
-</body>
-</html>
+```javascript
+let a = 17, b = 5;
+console.log(a + b);   // 22
+console.log(a - b);   // 12
+console.log(a * b);   // 85
+console.log(a / b);   // 3.4
+console.log(a % b);   // 2   (remainder)
+console.log(a ** 2);  // 289 (power)
 ```
 
-### Real-world example
+Order of work: brackets, then `* / %`, then `+ -`. Use brackets to be clear.
 
-GST calculation on a bill, EMI calculators on bank sites, "You save Rs. 300 (30% off)" on Flipkart, and the run rate on a cricket scoreboard (`runs / overs`) are all arithmetic in JavaScript.
+Useful `Math` tools:
 
-### Common mistakes
+```javascript
+Math.round(4.6);     // 5
+Math.floor(4.9);     // 4
+Math.ceil(4.1);      // 5
+Math.max(3, 9, 5);   // 9
+Math.sqrt(16);       // 4
+Math.random();       // random number between 0 and 1
+(3.14159).toFixed(2) // "3.14"  (2 decimal places)
+```
 
-- Forgetting to convert prompt strings to numbers.
-- Using `^` for power (it is a different operator). Use `**` or `Math.pow`.
-- Showing money without `toFixed(2)`.
-- Forgetting that `/` gives decimals (`7/2` is 3.5, not 3).
+**Simple calculator:**
 
-### Check your understanding
+```html
+<script>
+  let x = Number(prompt("First number"));
+  let y = Number(prompt("Second number"));
+  alert("Sum = " + (x + y) + "\nProduct = " + (x * y));
+</script>
+```
 
-1. What is the result of `2 + 3 * 4`? And `(2 + 3) * 4`?
-2. What do `NaN` and `Infinity` mean? When do they appear?
-3. Write one line to get a random whole number from 1 to 10.
-
----
+**Real world:** bill totals, GST, EMI and discount calculations on shopping sites.
 
 ## 5. Decision Making
 
-### Simple explanation
-
-A program must choose between actions. We use **conditions** (things that are true or false). In JavaScript these keywords are `if`, `else if`, `else` and `switch`.
-
-Forms:
+Programs choose what to do using conditions.
 
 ```javascript
-if (condition) { ... }
+let marks = Number(prompt("Enter marks"));
 
-if (condition) { ... } else { ... }
-
-if (c1) { ... } else if (c2) { ... } else { ... }
-
-switch (value) {
-  case x: ...; break;
-  case y: ...; break;
-  default: ...;
+if (marks >= 90) {
+  alert("Grade A");
+} else if (marks >= 60) {
+  alert("Grade B");
+} else if (marks >= 40) {
+  alert("Pass");
+} else {
+  alert("Fail");
 }
 ```
 
-Use `switch` when you compare **one value** against many fixed options. Without `break`, execution "falls through" to the next case.
-
-**Falsy values** (treated as false in a condition): `false`, `0`, `""`, `null`, `undefined`, `NaN`. Everything else is truthy.
-
-**Analogy:** **Traffic signal:** red then stop, else if yellow then get ready, else go. And a **tea shop menu board** is like `switch`: you say "2" and the shop picks the 2nd item.
-
-### Code example: grade and menu
-
-```html
-<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>Decisions</title></head>
-<body>
-<script>
-  // if / else if / else  (KTU style grade)
-  let marks = Number(prompt("Enter marks out of 100:"));
-  let grade;
-
-  if (isNaN(marks) || marks < 0 || marks > 100) {
-    grade = "Invalid marks";
-  } else if (marks >= 90) {
-    grade = "S";
-  } else if (marks >= 80) {
-    grade = "A";
-  } else if (marks >= 70) {
-    grade = "B";
-  } else if (marks >= 50) {
-    grade = "C";
-  } else if (marks >= 40) {
-    grade = "P (Pass)";
-  } else {
-    grade = "F (Fail)";
-  }
-  document.write("<p>Grade: " + grade + "</p>");
-
-  // switch: tea shop menu
-  let choice = prompt("1 Tea, 2 Coffee, 3 Lemon Tea, 4 Snack");
-  let item, cost;
-
-  switch (choice) {
-    case "1":
-      item = "Tea"; cost = 10;
-      break;
-    case "2":
-      item = "Coffee"; cost = 15;
-      break;
-    case "3":
-      item = "Lemon Tea"; cost = 12;
-      break;
-    case "4":
-      item = "Snack"; cost = 20;
-      break;
-    default:
-      item = "Unknown"; cost = 0;
-  }
-  document.write("<p>" + item + " costs Rs. " + cost + "</p>");
-
-  // Leap year with logical operators
-  let year = 2024;
-  if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
-    console.log(year + " is a leap year");
-  }
-</script>
-</body>
-</html>
-```
-
-### Real-world example
-
-IRCTC: "if the seat is available, show Book Now; else if RAC, show RAC; else show Waitlist". Swiggy: "if the cart is above Rs. 199 then free delivery else charge Rs. 40". A college result page decides Pass or Fail the same way as the grade code above.
-
-### Common mistakes
-
-- `if (x = 5)` instead of `if (x === 5)`.
-- Forgetting `break` in `switch`.
-- Putting a semicolon right after `if (...)`; that ends the `if` early.
-- In `switch`, comparing a string `"1"` with a number `1` (switch uses strict comparison).
-
-### Check your understanding
-
-1. When would you use `switch` instead of `if-else if`?
-2. What happens if you forget `break` in a case?
-3. Write a condition that is true only if a number is between 10 and 20 (both included).
-4. Name four falsy values.
-
----
-
-## 6. Control Statements (Loops, break, continue)
-
-### Simple explanation
-
-A **loop** repeats a block of code. Use loops when you must do the same job many times.
-
-| Loop | Use when | Syntax |
-|---|---|---|
-| `for` | You know how many times | `for (init; condition; update) { }` |
-| `while` | You repeat while a condition is true; condition checked **first** | `while (cond) { }` |
-| `do-while` | Run at least once; condition checked **after** | `do { } while (cond);` |
-
-- `break` stops the loop immediately.
-- `continue` skips the rest of this round and goes to the next round.
-
-**Analogy:** A **tea master pouring cups**: `for` is "pour exactly 10 cups". `while` is "keep pouring while customers are waiting". `do-while` is "pour one cup first, then check whether anyone else wants one". `break` is "shop closed, stop now". `continue` is "this customer wants no sugar, skip the sugar step and move on".
-
-### Code example
-
-```html
-<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>Loops</title></head>
-<body>
-<script>
-  // for: table of 5
-  document.write("<h3>Table of 5</h3>");
-  for (let i = 1; i <= 10; i++) {
-    document.write("5 x " + i + " = " + (5 * i) + "<br>");
-  }
-
-  // while: sum of digits
-  let n = 4821, sum = 0;
-  while (n > 0) {
-    sum += n % 10;          // last digit
-    n = Math.floor(n / 10); // remove last digit
-  }
-  document.write("<p>Sum of digits of 4821 = " + sum + "</p>");
-
-  // do-while: runs at least once (password retry)
-  let pass;
-  do {
-    pass = prompt("Enter the secret word (hint: kerala):");
-  } while (pass !== "kerala" && pass !== null);
-  document.write("<p>Loop finished.</p>");
-
-  // break: stop at first number divisible by 7
-  for (let i = 1; i <= 100; i++) {
-    if (i % 7 === 0) {
-      document.write("<p>First multiple of 7 is " + i + "</p>");
-      break;
-    }
-  }
-
-  // continue: print odd numbers only
-  document.write("Odd numbers: ");
-  for (let i = 1; i <= 10; i++) {
-    if (i % 2 === 0) continue;   // skip even
-    document.write(i + " ");
-  }
-
-  // Nested loop: star triangle
-  document.write("<pre>");
-  for (let r = 1; r <= 4; r++) {
-    let line = "";
-    for (let c = 1; c <= r; c++) line += "* ";
-    document.write(line + "\n");
-  }
-  document.write("</pre>");
-</script>
-</body>
-</html>
-```
-
-### Real-world example
-
-Zomato listing 20 restaurants uses a loop to make one card per restaurant. A cricket scoreboard loops over 11 batsmen to print each row. WhatsApp loops over messages to show them on screen.
-
-### Common mistakes
-
-- **Infinite loop**: forgetting `i++` in `while`, so the condition never becomes false (the browser tab hangs).
-- Off by one: using `<` when you meant `<=`.
-- Using `let` outside the loop and expecting the counter to stay unchanged.
-- Using `continue` before the update step in a `while` loop (skips `i++` and loops forever).
-
-### Check your understanding
-
-1. Difference between `while` and `do-while`?
-2. What is the output of: `for (let i=1;i<=5;i++){ if(i===3) continue; console.log(i); }`?
-3. Same loop but with `break` instead of `continue`?
-4. Write a loop to print numbers 10 down to 1.
-
-### Classroom activity: "Fizz Buzz" (10 min)
-
-Print 1 to 30. For multiples of 3 print `Fizz`, multiples of 5 print `Buzz`, multiples of both print `FizzBuzz`. Sample answer:
+**`switch`** is neat when checking one value against many choices:
 
 ```javascript
-for (let i = 1; i <= 30; i++) {
-  if (i % 15 === 0) console.log("FizzBuzz");
-  else if (i % 3 === 0) console.log("Fizz");
-  else if (i % 5 === 0) console.log("Buzz");
-  else console.log(i);
+let day = Number(prompt("Day number (1-3)"));
+switch (day) {
+  case 1: alert("Monday"); break;
+  case 2: alert("Tuesday"); break;
+  case 3: alert("Wednesday"); break;
+  default: alert("Not in this demo");
 }
 ```
 
----
+Without `break`, execution falls into the next case.
+
+Combine conditions: `if (age >= 18 && hasId)` (both), `if (a || b)` (either).
+
+**Analogy:** a fork in the road with signboards. You take the road whose sign matches your destination.
+
+**Real world:** IRCTC checks "is the seat free?" and "is the age above 60 for the senior discount?".
+
+**Common mistake:** `if (x = 5)` (stores 5) instead of `if (x === 5)` (compares).
+
+### Check your understanding
+1. Write code to check whether a number is even or odd.
+2. When would you use `switch` instead of `if/else`?
+
+## 6. Control Statements (Loops)
+
+A **loop** repeats code.
+
+```javascript
+// for: when you know how many times
+for (let i = 1; i <= 5; i++) {
+  console.log("Number " + i);
+}
+
+// while: repeat while a condition is true
+let n = 1;
+while (n <= 3) {
+  console.log("Round " + n);
+  n++;
+}
+
+// do...while: runs at least once
+let k = 10;
+do {
+  console.log("k is " + k);
+  k++;
+} while (k < 5);
+```
+
+| Loop | Checks the condition |
+|---|---|
+| `for` | first, then repeats |
+| `while` | first, then repeats |
+| `do...while` | **after** running once |
+
+**`break` and `continue`:**
+
+```javascript
+for (let i = 1; i <= 10; i++) {
+  if (i === 3) continue;   // skip 3
+  if (i === 6) break;      // stop the loop at 6
+  console.log(i);          // prints 1 2 4 5
+}
+```
+
+**Multiplication table:**
+
+```javascript
+let num = Number(prompt("Table of which number?"));
+for (let i = 1; i <= 10; i++) {
+  console.log(num + " x " + i + " = " + num * i);
+}
+```
+
+**Analogy:** a loop is a **temple circumambulation**: keep going round until the count is complete. `break` means leave early, `continue` means skip this round.
+
+**Common mistake:** forgetting `n++` in a `while` loop, so it never ends (the page freezes).
+
+### Check your understanding
+1. Print the numbers 1 to 10 using a `for` loop.
+2. What is the difference between `while` and `do...while`?
+3. What do `break` and `continue` do?
 
 ## 7. Functions
 
-### Simple explanation
-
-A **function** is a named block of code you write once and use many times. It can take **parameters** (inputs) and give back a result with `return`.
-
-Ways to write a function:
+A **function** is a named block of code you can use again and again.
 
 ```javascript
-// 1. Function declaration
-function add(a, b) { return a + b; }
+function greet(name) {
+  return "Hello, " + name + "!";
+}
 
-// 2. Function expression
-const sub = function (a, b) { return a - b; };
+console.log(greet("Anu"));     // Hello, Anu!
+console.log(greet("Rahul"));   // Hello, Rahul!
 
-// 3. Arrow function (short, modern)
-const mul = (a, b) => a * b;
+function add(a, b) {
+  return a + b;
+}
+let total = add(5, 7);         // 12
 ```
 
-Points to know:
-- If there is no `return`, the function gives back `undefined`.
-- Variables made inside a function are **local** (not visible outside).
-- Functions can have **default values**: `function greet(name = "Guest")`.
-- Functions can be passed to other functions (as in event handlers and `setTimeout`). This is called a **callback**.
+| Part | Meaning |
+|---|---|
+| `name` in brackets | **parameter**: the input |
+| `return` | sends the answer back |
+| `greet("Anu")` | **calling** the function |
 
-**Analogy:** A function is a **recipe card for masala chai**. You write the recipe once. Each time a customer comes, you follow the same card with different input (ginger or no ginger) and get a cup as output.
+**Analogy:** a recipe card. Write it once, cook it many times with different ingredients (parameters).
 
-### Code example
+**Why functions help organise code:** write once and reuse, easy to fix in one place, and big programs become small named pieces.
 
-```html
-<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>Functions</title></head>
-<body>
-<p id="out"></p>
-<script>
-  // function with parameters and return
-  function calculateBill(price, qty) {
-    return price * qty;
-  }
-
-  // default parameter
-  function greet(name = "Guest") {
-    return "Welcome, " + name + "!";
-  }
-
-  // arrow function
-  const gst = (amount) => amount * 0.05;
-
-  // function that calls another function
-  function finalAmount(price, qty) {
-    let subtotal = calculateBill(price, qty);
-    return subtotal + gst(subtotal);
-  }
-
-  // function with no return (just does something)
-  function showMessage(text) {
-    document.getElementById("out").innerHTML = text;
-  }
-
-  console.log(greet());              // Welcome, Guest!
-  console.log(greet("Anu"));         // Welcome, Anu!
-  console.log(calculateBill(10, 3)); // 30
-  showMessage("Total with GST: Rs. " + finalAmount(10, 3).toFixed(2)); // 31.50
-
-  // callback: function passed to another function
-  setTimeout(function () {
-    console.log("This ran after 2 seconds");
-  }, 2000);
-
-  // local vs global scope
-  let shopName = "Chai Point";        // global
-  function test() {
-    let secret = 123;                 // local
-    console.log(shopName, secret);
-  }
-  test();
-  // console.log(secret);  // ERROR: secret is not defined
-</script>
-</body>
-</html>
-```
-
-### Real-world example
-
-A "calculate delivery charge" function on Swiggy is used on every cart page. A `validateEmail()` function is reused on login, signup and contact forms. Libraries like jQuery are just a big collection of ready-made functions.
-
-### Common mistakes
-
-- Defining a function but never calling it (forgetting the `()`).
-- Writing `return` and then putting code after it (never runs).
-- Forgetting `return` and getting `undefined`.
-- Writing `onclick="myFunc"` instead of `onclick="myFunc()"`.
-- Using a variable defined inside a function from outside.
-
-### Check your understanding
-
-1. What is the difference between a parameter and an argument?
-2. What does a function return if there is no `return` statement?
-3. Write an arrow function that returns the square of a number.
-4. What is a callback function? Give one example.
-
----
+**Common mistakes:** forgetting `return`, or writing the function but never calling it.
 
 ## 8. Arrays
 
-### Simple explanation
-
-An **array** is an ordered list of values stored in one variable. Each item has a numbered position called an **index**, starting from **0**.
+An **array** stores **many values** in one variable. Positions (indexes) start at **0**.
 
 ```javascript
-let fruits = ["apple", "mango", "banana"];
-fruits[0]      // "apple"
-fruits.length  // 3
+let fruits = ["Mango", "Banana", "Apple"];
+
+console.log(fruits[0]);        // Mango
+console.log(fruits.length);    // 3
+
+fruits.push("Orange");         // add at end
+fruits.pop();                  // remove from end
+fruits.unshift("Grapes");      // add at start
+fruits.shift();                // remove from start
+
+for (let i = 0; i < fruits.length; i++) {
+  console.log(i + ": " + fruits[i]);
+}
 ```
 
-Common array methods:
-
-| Method | What it does |
+| Tool | Does |
 |---|---|
-| `push(x)` | Add at end |
-| `pop()` | Remove from end |
-| `unshift(x)` | Add at start |
-| `shift()` | Remove from start |
-| `indexOf(x)` | Position of x, or -1 if not found |
-| `includes(x)` | true/false |
-| `slice(a,b)` | Copy a part (does not change original) |
-| `splice(i,n)` | Remove n items from position i (changes original) |
-| `join(",")` | Make a string |
-| `sort()` | Sort (text order by default) |
-| `reverse()` | Reverse order |
-| `forEach(fn)` | Run fn on each item |
-| `map(fn)` | Make a new array by changing each item |
-| `filter(fn)` | Make a new array with items that pass a test |
-| `reduce(fn, start)` | Combine all items into one value |
+| `push(x)` / `pop()` | add / remove at the end |
+| `unshift(x)` / `shift()` | add / remove at the start |
+| `length` | number of items |
+| `indexOf(x)` | position of x (or -1) |
+| `sort()` | sort the items |
 
-**Analogy:** An array is a **railway train**. Coaches are numbered from 0 (engine side). Each coach holds one thing. You can attach a coach at the end (`push`), detach one (`pop`), or ask "which coach has the pantry?" (`indexOf`).
+**Analogy:** a row of numbered lockers. `fruits[0]` is locker number 0.
 
-### Code example
+**Real world:** a shopping cart is an array of items.
 
-```html
-<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>Arrays</title></head>
-<body>
-<ul id="list"></ul>
-<p id="result"></p>
-<script>
-  let menu = ["Tea", "Coffee", "Samosa"];
-  menu.push("Vada");            // add at end
-  menu.unshift("Lemon Tea");    // add at start
-  menu.pop();                   // remove "Vada"
-  console.log(menu);            // ["Lemon Tea","Tea","Coffee","Samosa"]
-  console.log(menu.length);     // 4
-  console.log(menu.indexOf("Coffee")); // 2
-  console.log(menu.includes("Pizza")); // false
-
-  // loop over array: classic for
-  for (let i = 0; i < menu.length; i++) {
-    console.log(i + ": " + menu[i]);
-  }
-
-  // forEach: show on page
-  let list = document.getElementById("list");
-  menu.forEach(function (item) {
-    list.innerHTML += "<li>" + item + "</li>";
-  });
-
-  // numbers: map, filter, reduce
-  let prices = [10, 15, 20, 12];
-  let withGst = prices.map(p => p * 1.05);          // new array
-  let costly = prices.filter(p => p >= 15);         // [15, 20]
-  let total = prices.reduce((sum, p) => sum + p, 0); // 57
-  document.getElementById("result").innerHTML =
-    "Total: Rs. " + total + " | Costly items: " + costly.join(", ");
-
-  // sort numbers correctly
-  let scores = [45, 9, 100, 23];
-  scores.sort((a, b) => a - b);
-  console.log(scores);   // [9, 23, 45, 100]
-
-  // 2D array (rows and columns)
-  let marks = [[80, 70], [60, 90]];
-  console.log(marks[1][1]);   // 90
-</script>
-</body>
-</html>
-```
-
-### Real-world example
-
-The list of restaurants on Zomato, products on a Flipkart search page, your WhatsApp chats, and the 11 players in a team are all arrays. "Sort by price: low to high" is `sort()`. "Show only veg" is `filter()`. "Cart total" is `reduce()`.
-
-### Common mistakes
-
-- Thinking the first index is 1 (it is 0).
-- Reading `arr[arr.length]` (this is beyond the end; the last is `arr[arr.length - 1]`).
-- Using `sort()` on numbers without a compare function (`[100, 9]` sorts as `[100, 9]` because it sorts as text).
-- Confusing `slice` (copy) with `splice` (changes original).
+**Common mistake:** counting from 1. The last item is at `length - 1`.
 
 ### Check your understanding
-
-1. What is the index of the last item in an array of 8 items?
-2. What does `push()` do, and what does `pop()` do?
-3. Write code to find the sum of numbers in `[4, 8, 15]` using a loop.
-4. What is the difference between `map()` and `filter()`?
-
----
+1. How do you get the last item of an array?
+2. Write code to add up all numbers in `[4, 8, 15]` using a loop.
 
 ## 9. Objects
 
-### Simple explanation
-
-An **object** stores related data as **key: value pairs** (called properties). A function stored inside an object is called a **method**. Arrays use number positions; objects use names.
+An **object** stores related information using **name: value** pairs.
 
 ```javascript
 let student = {
   name: "Anu",
-  roll: 12,
-  marks: [80, 90],
-  greet: function () { return "Hi, I am " + this.name; }
+  age: 20,
+  dept: "CSE",
+  marks: [80, 90, 85]
 };
-student.name        // dot notation
-student["roll"]     // bracket notation
-```
 
-`this` inside a method means "the object that owns this method".
+console.log(student.name);          // Anu
+console.log(student["dept"]);       // CSE
+student.age = 21;                   // change
+student.city = "Kochi";             // add new
 
-Useful things: add a property (`student.city = "Kochi"`), delete (`delete student.roll`), check (`"name" in student`), loop over keys (`for (let key in student)`), and **JSON** (`JSON.stringify(obj)` to make text, `JSON.parse(text)` to get the object back). JSON is the standard format to send data between browser and server.
-
-An array of objects is the most common structure on real websites.
-
-**Analogy:** An object is a **college ID card**. Fields: name, roll number, branch, blood group. You ask for a field by its label. A method is something the card holder can do, such as "introduce yourself".
-
-### Code example
-
-```html
-<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>Objects</title></head>
-<body>
-<div id="board"></div>
-<script>
-  // object with properties and a method
-  let batsman = {
-    name: "Virat",
-    runs: 82,
-    balls: 53,
-    strikeRate: function () {
-      return ((this.runs / this.balls) * 100).toFixed(1);
-    }
-  };
-
-  console.log(batsman.name);           // Virat
-  console.log(batsman["runs"]);        // 82
-  console.log(batsman.strikeRate());   // 154.7
-  batsman.fours = 7;                   // add property
-  batsman.runs = 90;                   // change property
-
-  // loop over keys
-  for (let key in batsman) {
-    if (typeof batsman[key] !== "function") {
-      console.log(key + " = " + batsman[key]);
-    }
+// an object can hold a function too
+let car = {
+  brand: "Maruti",
+  start: function () {
+    console.log(this.brand + " started");
   }
-
-  // array of objects: scoreboard
-  let team = [
-    { name: "Rohit", runs: 45, balls: 30 },
-    { name: "Gill",  runs: 63, balls: 41 },
-    { name: "Kohli", runs: 82, balls: 53 }
-  ];
-
-  let html = "<table border='1' cellpadding='6'><tr><th>Player</th><th>Runs</th><th>Balls</th></tr>";
-  let totalRuns = 0;
-  team.forEach(function (p) {
-    html += "<tr><td>" + p.name + "</td><td>" + p.runs + "</td><td>" + p.balls + "</td></tr>";
-    totalRuns += p.runs;
-  });
-  html += "</table><p>Team total: " + totalRuns + "</p>";
-  document.getElementById("board").innerHTML = html;
-
-  // JSON
-  let text = JSON.stringify(team[0]);
-  console.log(text);                   // {"name":"Rohit","runs":45,"balls":30}
-  let back = JSON.parse(text);
-  console.log(back.runs);              // 45
-</script>
-</body>
-</html>
+};
+car.start();                        // Maruti started
 ```
 
-### Real-world example
+Array of objects (very common):
 
-A single Swiggy restaurant is an object: `{name, rating, cuisines, deliveryTime}`. The home page gets an array of such objects from the server (as JSON) and shows a card for each. Your logged-in profile, a Flipkart product and an IRCTC train entry are all objects.
+```javascript
+let students = [
+  { name: "Anu", marks: 85 },
+  { name: "Rahul", marks: 72 }
+];
+for (let i = 0; i < students.length; i++) {
+  console.log(students[i].name + " scored " + students[i].marks);
+}
+```
 
-### Common mistakes
+**Analogy:** a student ID card. Fields like name, roll number and department, all about one person.
 
-- Using `student.name` when the key is stored in a variable (use `student[key]`).
-- Forgetting commas between properties.
-- Using an arrow function as a method and expecting `this` to work.
-- Writing JSON with single quotes (JSON needs double quotes).
+**Array versus object:** use an array for a **list of similar things**, an object for the **details of one thing**.
 
 ### Check your understanding
-
-1. How are objects different from arrays?
-2. How do you add a new property `city` to an existing object `student`?
-3. What is a method? What does `this` mean inside it?
-4. Create an object for a Flipkart product with name, price and a method that gives the price after 10 percent discount.
-
----
+1. Create an object for a book with title, author and price.
+2. How do you read and change one property?
 
 ## 10. Document Object Model (DOM)
 
-### Simple explanation
+The browser turns the HTML page into a **tree of objects** called the **DOM**. JavaScript uses it to read and change the page.
 
-When the browser loads an HTML page, it builds a **tree of objects** in memory. This tree is the **DOM**. Every tag, every piece of text and every attribute becomes a **node** in the tree. JavaScript can read and change this tree, and the page changes on screen immediately.
+```
+document
+  └── html
+       ├── head
+       └── body
+            ├── h1
+            └── p
+```
 
-The top is `document`, then `html`, with `head` and `body` as children, and so on.
+**Analogy:** a family tree of the page. JavaScript can find any member and change them.
 
-Finding elements:
+**Finding elements:**
 
-| Method | Returns |
-|---|---|
-| `document.getElementById("id")` | One element |
-| `document.getElementsByClassName("c")` | List of elements |
-| `document.getElementsByTagName("p")` | List of elements |
-| `document.querySelector("css")` | First match (any CSS selector) |
-| `document.querySelectorAll("css")` | All matches |
+```javascript
+document.getElementById("title");          // by id
+document.querySelector(".note");           // first match of a CSS selector
+document.querySelectorAll("p");            // all matches
+```
 
-Changing things:
+**Changing them:**
 
-| Task | Code |
-|---|---|
-| Change HTML inside | `el.innerHTML = "<b>Hi</b>"` |
-| Change plain text | `el.textContent = "Hi"` |
-| Change attribute | `el.setAttribute("src","a.png")` or `el.src = "a.png"` |
-| Change style | `el.style.color = "red"` |
-| Add/remove class | `el.classList.add("x")`, `.remove("x")`, `.toggle("x")` |
-| Create element | `document.createElement("li")` |
-| Add into page | `parent.appendChild(child)` |
-| Remove | `el.remove()` |
+```javascript
+let el = document.getElementById("title");
+el.innerHTML = "New heading";              // change content
+el.style.color = "red";                    // change style
+el.style.fontSize = "30px";
+el.setAttribute("title", "Tooltip");       // change attribute
+```
 
-**Events** tell us when something happens. Attach with `addEventListener("click", function)`. Common events: `click`, `dblclick`, `mouseover`, `mouseout`, `keyup`, `change`, `submit`, `load`.
+**Reacting to events:**
 
-**Analogy:** The DOM is the **family tree of a joint family** on a wedding invitation. You can point to any person (element) by name or relation, change their details, add a new baby, or remove someone from the chart. The printed invitation (page) updates as you edit.
+```html
+<h2 id="title">Hello</h2>
+<button id="btn">Change</button>
 
-### Code example
+<script>
+  document.getElementById("btn").onclick = function () {
+    let t = document.getElementById("title");
+    t.innerHTML = "You clicked the button!";
+    t.style.color = "green";
+  };
+</script>
+```
+
+Common events: `onclick`, `onmouseover`, `onmouseout`, `onkeyup`, `onchange`, `onsubmit`.
+
+**Real world:** a "Show password" tick box, dark mode switches, and the live character counter on a tweet box all change the DOM.
+
+**Common mistakes:**
+- Running the script before the element exists (put script at the end of the body).
+- Wrong id spelling (the result is `null` and an error in the Console).
+
+### Check your understanding
+1. What is the DOM?
+2. Write code to change the text of a paragraph with id `intro` when a button is clicked.
+
+## 11. Form Processing
+
+Before sending a form to a server, JavaScript can **check the input** (**validation**). This saves time and gives instant feedback.
+
+**Reading form values:**
+
+```javascript
+let name = document.getElementById("name").value;
+```
+
+**Validation example: check that a field is not empty, and the mobile number is 10 digits.**
 
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>DOM demo</title>
-  <style>
-    .highlight { background: yellow; }
-    li { margin: 4px 0; }
-  </style>
-</head>
+<head><title>Validation</title></head>
 <body>
-  <h2 id="title">Today's Specials</h2>
-  <ul id="menu">
-    <li class="item">Masala Dosa</li>
-    <li class="item">Idli</li>
-  </ul>
-
-  <input type="text" id="newItem" placeholder="New dish">
-  <button id="addBtn">Add</button>
-  <button id="colorBtn">Toggle highlight</button>
-  <button id="removeBtn">Remove last</button>
+  <h3>Register</h3>
+  <form id="regForm">
+    Name: <input type="text" id="name"><br><br>
+    Mobile: <input type="text" id="mobile"><br><br>
+    <button type="submit">Register</button>
+  </form>
+  <p id="msg" style="color:red"></p>
 
   <script>
-    const title = document.getElementById("title");
-    const menu = document.getElementById("menu");
-    const input = document.getElementById("newItem");
+    document.getElementById("regForm").onsubmit = function (e) {
+      let name = document.getElementById("name").value.trim();
+      let mobile = document.getElementById("mobile").value.trim();
+      let msg = document.getElementById("msg");
 
-    // change text and style
-    title.textContent = "Today's Specials (Kochi Branch)";
-    title.style.color = "darkgreen";
-
-    // create and add an element
-    document.getElementById("addBtn").addEventListener("click", function () {
-      let text = input.value.trim();
-      if (text === "") {
-        alert("Please type a dish name");
+      if (name === "") {
+        msg.innerHTML = "Please enter your name";
+        e.preventDefault();               // stop the form from being sent
         return;
       }
-      let li = document.createElement("li");
-      li.className = "item";
-      li.textContent = text;
-      menu.appendChild(li);
-      input.value = "";
-      input.focus();
-    });
-
-    // class toggle on all items
-    document.getElementById("colorBtn").addEventListener("click", function () {
-      let items = document.querySelectorAll(".item");
-      items.forEach(function (li) {
-        li.classList.toggle("highlight");
-      });
-    });
-
-    // remove last item
-    document.getElementById("removeBtn").addEventListener("click", function () {
-      let last = menu.lastElementChild;
-      if (last) last.remove();
-    });
-
-    // hover event on the title
-    title.addEventListener("mouseover", function () { title.style.color = "red"; });
-    title.addEventListener("mouseout", function () { title.style.color = "darkgreen"; });
+      if (mobile.length !== 10 || isNaN(mobile)) {
+        msg.innerHTML = "Mobile must be 10 digits";
+        e.preventDefault();
+        return;
+      }
+      msg.innerHTML = "";
+      alert("Form is valid. Thank you " + name + "!");
+      e.preventDefault();                  // (only for this demo, so the page stays)
+    };
   </script>
 </body>
 </html>
 ```
 
-### Real-world example
+How it works:
+1. `onsubmit` runs when the user clicks Register.
+2. We read each value, with `.trim()` removing spaces.
+3. If something is wrong, we show a message and call `e.preventDefault()` to **stop the submission**.
 
-Every time Flipkart updates the cart count without reloading, Zomato adds a dish into your cart panel, or WhatsApp Web shows a new message bubble, JavaScript is creating or changing DOM nodes.
+**Analogy:** the security guard at a gate checking your ID card **before** you go in.
 
-### Common mistakes
+**Real world:** every sign-up form that says "Email is invalid" or "Password too short".
 
-- Running the script before the element exists (script in head without waiting).
-- Using `getElementsByClassName(...)` and treating it as one element (it is a list).
-- Using `innerHTML` with text typed by users (security risk: script injection). Prefer `textContent` for user text.
-- Wrong id spelling or using `#` in `getElementById("#title")`.
+**Note:** this check helps users, but the **server must check again**, because a user can bypass browser checks.
 
 ### Check your understanding
-
-1. What is the DOM? Why is it described as a tree?
-2. Difference between `innerHTML` and `textContent`?
-3. Write code to change the text of a paragraph with id `info` to "Hello".
-4. Name any four events.
-
-### Classroom activity: "Live colour changer" (10 min)
-
-Ask students to make three buttons (Red, Green, Blue) that change the page background using `document.body.style.backgroundColor`.
+1. What is form validation? Why do it?
+2. What does `e.preventDefault()` do?
+3. Write code to check that a text field is not empty when a form is submitted.
 
 ---
 
-## 11. Form Processing (Validation)
-
-### Simple explanation
-
-**Form validation** means checking what the user typed **before** it goes to the server. It saves time and gives instant feedback, for example "Email is not valid".
-
-How JavaScript handles it:
-1. Listen for the form's `submit` event (or button click).
-2. Read each field's value (`input.value`).
-3. Test the value (empty? right length? matches a pattern?).
-4. If wrong: show an error message and stop the submission with `event.preventDefault()` (or `return false` in `onsubmit`).
-5. If right: allow the form to go.
-
-Common checks: required field, minimum length, only digits (phone), email format, password match, age range, checkbox ticked.
-
-**Regular expression (regex)** is a pattern to match text. Example: a 10-digit Indian mobile number starting with 6-9: `/^[6-9]\d{9}$/`. Use `pattern.test(value)`.
-
-HTML5 also has built-in validation (`required`, `minlength`, `type="email"`), but JavaScript gives full control and custom messages. Important: **client-side validation is only for user comfort. A server must always validate again** because anyone can bypass the browser checks.
-
-**Analogy:** Validation is the **security guard at a college gate** checking the ID card. He checks quickly at the gate (JavaScript, fast, saves trouble). But the office inside also checks again (server), because a fake ID could get past a sleepy guard.
-
-### Code example: registration form
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Form Validation</title>
-  <style>
-    body { font-family: Arial; margin: 30px; }
-    .row { margin-bottom: 12px; }
-    label { display: inline-block; width: 140px; }
-    .error { color: red; font-size: 13px; margin-left: 140px; }
-    .ok { color: green; font-weight: bold; }
-  </style>
-</head>
-<body>
-  <h2>Student Registration</h2>
-  <form id="regForm" novalidate>
-    <div class="row">
-      <label for="fullname">Full name</label>
-      <input type="text" id="fullname">
-      <div class="error" id="nameErr"></div>
-    </div>
-    <div class="row">
-      <label for="email">Email</label>
-      <input type="text" id="email">
-      <div class="error" id="emailErr"></div>
-    </div>
-    <div class="row">
-      <label for="phone">Mobile</label>
-      <input type="text" id="phone" maxlength="10">
-      <div class="error" id="phoneErr"></div>
-    </div>
-    <div class="row">
-      <label for="pass">Password</label>
-      <input type="password" id="pass">
-      <div class="error" id="passErr"></div>
-    </div>
-    <div class="row">
-      <label for="pass2">Confirm password</label>
-      <input type="password" id="pass2">
-      <div class="error" id="pass2Err"></div>
-    </div>
-    <div class="row">
-      <input type="checkbox" id="agree"> <label for="agree" style="width:auto">I agree to the rules</label>
-      <div class="error" id="agreeErr"></div>
-    </div>
-    <button type="submit">Register</button>
-    <p id="status"></p>
-  </form>
-
-  <script>
-    document.getElementById("regForm").addEventListener("submit", function (event) {
-      let valid = true;
-
-      // helper: show or clear message
-      function setError(id, message) {
-        document.getElementById(id).textContent = message;
-        if (message !== "") valid = false;
-      }
-
-      let name = document.getElementById("fullname").value.trim();
-      let email = document.getElementById("email").value.trim();
-      let phone = document.getElementById("phone").value.trim();
-      let pass = document.getElementById("pass").value;
-      let pass2 = document.getElementById("pass2").value;
-      let agree = document.getElementById("agree").checked;
-
-      // 1. empty check
-      setError("nameErr", name === "" ? "Name cannot be empty" : "");
-
-      // 2. email pattern
-      let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      setError("emailErr", emailPattern.test(email) ? "" : "Enter a valid email");
-
-      // 3. Indian mobile: 10 digits, starts with 6-9
-      setError("phoneErr", /^[6-9]\d{9}$/.test(phone) ? "" : "Enter a valid 10-digit mobile number");
-
-      // 4. password length
-      setError("passErr", pass.length >= 6 ? "" : "Password must be at least 6 characters");
-
-      // 5. confirm password
-      setError("pass2Err", pass === pass2 ? "" : "Passwords do not match");
-
-      // 6. checkbox
-      setError("agreeErr", agree ? "" : "You must accept the rules");
-
-      if (!valid) {
-        event.preventDefault();     // stop the form from being submitted
-        document.getElementById("status").textContent = "";
-      } else {
-        event.preventDefault();     // for this demo we also stay on the page
-        document.getElementById("status").innerHTML = "<span class='ok'>Form is valid. Ready to send!</span>";
-      }
-    });
-  </script>
-</body>
-</html>
-```
-
-### Short answer: check an empty text field on submit
-
-```html
-<!DOCTYPE html>
-<html>
-<body>
-  <form onsubmit="return checkEmpty()">
-    Name: <input type="text" id="uname">
-    <input type="submit" value="Submit">
-  </form>
-  <script>
-    function checkEmpty() {
-      let v = document.getElementById("uname").value.trim();
-      if (v === "") {
-        alert("Name field cannot be empty");
-        return false;     // blocks submission
-      }
-      return true;        // allows submission
-    }
-  </script>
-</body>
-</html>
-```
-
-### Real-world example
-
-IRCTC signup (username availability, password rules), UPI apps checking that the amount is not zero and the UPI ID has the `@` format, and every college admission form with "required" fields.
-
-### Common mistakes
-
-- Forgetting `preventDefault()` or `return false`, so the bad form still goes.
-- Using `.value` without `.trim()` (a field with only spaces looks non-empty).
-- Writing `onsubmit="checkEmpty()"` instead of `onsubmit="return checkEmpty()"`.
-- Trusting only client-side validation.
-- Reading a checkbox with `.value` instead of `.checked`.
-
-### Check your understanding
-
-1. Why is validation done on the client side? Why is it not enough on its own?
-2. How do you stop a form from submitting using JavaScript?
-3. Write a regex-based check for a 6-digit PIN code.
-4. How do you check that two password fields match?
-
----
-
-# PART B: jQUERY (SHORT VERSION)
+# PART B: jQUERY
 
 ---
 
@@ -1644,377 +914,131 @@ Save as `jquery-demo.html` and open it in Chrome.
 
 ---
 
-# PART C: PLAIN JAVASCRIPT vs jQUERY (SIDE BY SIDE)
+# PART C: Mini-Project and Exam Questions
 
-Both do the same job. jQuery is shorter; plain JavaScript needs no extra file and is now quite good too.
+## Mini-project: Tea Shop Bill
 
-| Task | Plain JavaScript | jQuery |
-|---|---|---|
-| Wait for page | `document.addEventListener("DOMContentLoaded", fn)` | `$(fn)` |
-| Select by id | `document.getElementById("a")` | `$("#a")` |
-| Select all by class | `document.querySelectorAll(".c")` | `$(".c")` |
-| Change text | `el.textContent = "Hi"` | `$("#a").text("Hi")` |
-| Change HTML | `el.innerHTML = "<b>Hi</b>"` | `$("#a").html("<b>Hi</b>")` |
-| Read input | `el.value` | `$("#a").val()` |
-| Hide | `el.style.display = "none"` | `$("#a").hide()` |
-| Set style | `el.style.color = "red"` | `$("#a").css("color","red")` |
-| Add class | `el.classList.add("x")` | `$("#a").addClass("x")` |
-| Get attribute | `el.getAttribute("href")` | `$("a").attr("href")` |
-| Click event | `el.addEventListener("click", fn)` | `$("#a").click(fn)` |
-| Add child | `el.appendChild(child)` | `$("#a").append(child)` |
-| Loop over elements | `list.forEach(fn)` | `$(".c").each(fn)` |
-| Fade out | needs CSS or timers | `$("#a").fadeOut()` |
+A page where the user picks an item and quantity, adds it to a bill, and sees the total with 5 percent GST. It uses variables, arrays, objects, functions, loops, DOM, events and validation.
 
-### Example 1: hide a paragraph on button click
-
-Plain JavaScript:
-
-```html
-<!DOCTYPE html>
-<html>
-<body>
-  <p id="para">Hide me!</p>
-  <button id="btn">Hide</button>
-  <script>
-    document.getElementById("btn").addEventListener("click", function () {
-      document.getElementById("para").style.display = "none";
-    });
-  </script>
-</body>
-</html>
-```
-
-jQuery:
-
-```html
-<!DOCTYPE html>
-<html>
-<head><script src="https://code.jquery.com/jquery-3.7.1.min.js"></script></head>
-<body>
-  <p id="para">Hide me!</p>
-  <button id="btn">Hide</button>
-  <script>
-    $(function () {
-      $("#btn").click(function () { $("#para").hide(); });
-    });
-  </script>
-</body>
-</html>
-```
-
-### Example 2: change colour of all paragraphs
-
-Plain JavaScript (needs a loop):
-
-```javascript
-document.querySelectorAll("p").forEach(function (p) {
-  p.style.color = "blue";
-});
-```
-
-jQuery (no loop needed, it acts on all):
-
-```javascript
-$("p").css("color", "blue");
-```
-
-### Example 3: add a new list item
-
-Plain JavaScript:
-
-```javascript
-let li = document.createElement("li");
-li.textContent = "Vada";
-document.getElementById("menu").appendChild(li);
-```
-
-jQuery:
-
-```javascript
-$("#menu").append($("<li></li>").text("Vada"));
-```
-
-### Example 4: toggle with fade, using classes
-
-Plain JavaScript:
-
-```javascript
-document.getElementById("btn").addEventListener("click", function () {
-  document.getElementById("box").classList.toggle("hidden");   // CSS handles the fade
-});
-```
-
-jQuery:
-
-```javascript
-$("#btn").click(function () { $("#box").fadeToggle(); });
-```
-
-### Discussion for the class
-
-- jQuery is shorter and hides browser differences (a big help in the old days).
-- Modern plain JavaScript (`querySelector`, `classList`, `fetch`) does much of what jQuery was needed for.
-- jQuery is still common in old projects, WordPress, and many portals, so you must be able to read and write it.
-
----
-
-# PART D: MINI-PROJECT: TEA SHOP BILL CALCULATOR
-
-**Goal:** a page where the user enters the customer name, picks items and quantities, and gets a bill with GST. It has form validation. We build it in **plain JavaScript**. Version 2 is a short **jQuery** to-do list for practising selectors, events and effects.
-
-**Features:**
-1. Customer name and mobile number (validated).
-2. Choose items from a dropdown with price and enter quantity.
-3. Add items to a bill table (array of objects).
-4. Show subtotal, 5 percent GST and grand total.
-5. Remove an item. Clear bill.
-6. Messages for wrong input.
-
-**Concepts used:** variables, arrays, objects, functions, loops, DOM, events, validation, `toFixed`.
-
-## Version 1: Plain JavaScript
-
-Save as `teashop-js.html`.
+Save as `teashop.html`:
 
 ```html
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Chai Corner Bill (JavaScript)</title>
+  <title>Chai Corner Bill</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #fff8ec; margin: 0; padding: 20px; }
-    .wrap { max-width: 640px; margin: auto; background: white; padding: 20px;
-            border-radius: 10px; box-shadow: 0 2px 8px #ccc; }
-    h1 { color: #8a4b08; text-align: center; margin-top: 0; }
-    .row { margin: 10px 0; }
-    label { display: inline-block; width: 120px; }
-    input, select { padding: 6px; }
-    button { padding: 7px 14px; cursor: pointer; background: #8a4b08; color: white; border: none; border-radius: 4px; }
-    button.small { padding: 3px 8px; background: #b22; }
-    .error { color: red; font-size: 13px; margin-left: 120px; min-height: 16px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-    th, td { border: 1px solid #ddd; padding: 6px; text-align: center; }
-    th { background: #f3e0c2; }
-    .total td { font-weight: bold; }
+    body { font-family: Arial; max-width: 420px; margin: 30px auto; }
+    table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+    th, td { border: 1px solid #999; padding: 6px; text-align: left; }
+    th { background: #333; color: white; }
+    #error { color: red; }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Chai Corner</h1>
+  <h2>Chai Corner</h2>
 
-    <div class="row">
-      <label for="cname">Customer</label>
-      <input type="text" id="cname" placeholder="Name">
-    </div>
-    <div class="error" id="errName"></div>
+  Item:
+  <select id="item">
+    <option value="Tea">Tea - 10</option>
+    <option value="Coffee">Coffee - 15</option>
+    <option value="Samosa">Samosa - 20</option>
+  </select>
+  Quantity: <input type="number" id="qty" value="1" style="width:60px">
+  <button id="addBtn">Add</button>
+  <p id="error"></p>
 
-    <div class="row">
-      <label for="mobile">Mobile</label>
-      <input type="text" id="mobile" maxlength="10" placeholder="10 digits">
-    </div>
-    <div class="error" id="errMobile"></div>
-
-    <div class="row">
-      <label for="item">Item</label>
-      <select id="item">
-        <option value="">-- choose --</option>
-        <option value="Tea|10">Tea - Rs. 10</option>
-        <option value="Coffee|15">Coffee - Rs. 15</option>
-        <option value="Lemon Tea|12">Lemon Tea - Rs. 12</option>
-        <option value="Samosa|20">Samosa - Rs. 20</option>
-        <option value="Vada|12">Vada - Rs. 12</option>
-      </select>
-    </div>
-    <div class="error" id="errItem"></div>
-
-    <div class="row">
-      <label for="qty">Quantity</label>
-      <input type="number" id="qty" value="1" min="1" style="width:70px">
-      <button id="addBtn">Add to bill</button>
-      <button id="clearBtn" style="background:#555">Clear</button>
-    </div>
-    <div class="error" id="errQty"></div>
-
-    <table id="billTable">
-      <thead>
-        <tr><th>Item</th><th>Price</th><th>Qty</th><th>Amount</th><th></th></tr>
-      </thead>
-      <tbody id="billBody"></tbody>
-      <tfoot id="billFoot"></tfoot>
-    </table>
-    <p id="msg"></p>
-  </div>
+  <table>
+    <thead><tr><th>Item</th><th>Qty</th><th>Amount</th></tr></thead>
+    <tbody id="billBody"></tbody>
+  </table>
+  <p id="totals"></p>
 
   <script>
-    // ---------- Data ----------
-    const GST_RATE = 0.05;
-    let bill = [];     // array of objects: {name, price, qty}
+    // prices stored in an object
+    let prices = { Tea: 10, Coffee: 15, Samosa: 20 };
+    // the bill is an array of objects
+    let bill = [];
 
-    // ---------- Helper functions ----------
-    function setError(id, text) {
-      document.getElementById(id).textContent = text;
-      return text === "";           // true if no error
-    }
-
-    function validateCustomer() {
-      let name = document.getElementById("cname").value.trim();
-      let mobile = document.getElementById("mobile").value.trim();
-      let ok1 = setError("errName", name === "" ? "Please enter customer name" : "");
-      let ok2 = setError("errMobile", /^[6-9]\d{9}$/.test(mobile) ? "" : "Enter a valid 10-digit mobile number");
-      return ok1 && ok2;
-    }
-
-    function validateItem() {
-      let item = document.getElementById("item").value;
-      let qty = Number(document.getElementById("qty").value);
-      let ok1 = setError("errItem", item === "" ? "Please choose an item" : "");
-      let ok2 = setError("errQty",
-        (Number.isInteger(qty) && qty >= 1 && qty <= 50) ? "" : "Quantity must be a whole number from 1 to 50");
-      return ok1 && ok2;
-    }
-
-    function calculateTotals() {
+    function showBill() {
+      let rows = "";
       let subtotal = 0;
       for (let i = 0; i < bill.length; i++) {
-        subtotal += bill[i].price * bill[i].qty;
+        let amount = bill[i].qty * prices[bill[i].item];
+        subtotal = subtotal + amount;
+        rows += "<tr><td>" + bill[i].item + "</td><td>" + bill[i].qty + "</td><td>" + amount + "</td></tr>";
       }
-      let gst = subtotal * GST_RATE;
-      return { subtotal: subtotal, gst: gst, grand: subtotal + gst };
+      document.getElementById("billBody").innerHTML = rows;
+
+      let gst = subtotal * 0.05;
+      document.getElementById("totals").innerHTML =
+        "Subtotal: " + subtotal.toFixed(2) + "<br>" +
+        "GST (5%): " + gst.toFixed(2) + "<br>" +
+        "<b>Total: " + (subtotal + gst).toFixed(2) + "</b>";
     }
 
-    function render() {
-      let body = document.getElementById("billBody");
-      let foot = document.getElementById("billFoot");
-      body.innerHTML = "";
-      foot.innerHTML = "";
+    document.getElementById("addBtn").onclick = function () {
+      let item = document.getElementById("item").value;
+      let qty = Number(document.getElementById("qty").value);
+      let error = document.getElementById("error");
 
-      bill.forEach(function (line, index) {
-        let tr = document.createElement("tr");
-        tr.innerHTML =
-          "<td>" + line.name + "</td>" +
-          "<td>" + line.price + "</td>" +
-          "<td>" + line.qty + "</td>" +
-          "<td>" + (line.price * line.qty).toFixed(2) + "</td>" +
-          "<td><button class='small' data-index='" + index + "'>X</button></td>";
-        body.appendChild(tr);
-      });
-
-      if (bill.length > 0) {
-        let t = calculateTotals();
-        foot.innerHTML =
-          "<tr class='total'><td colspan='3'>Subtotal</td><td colspan='2'>Rs. " + t.subtotal.toFixed(2) + "</td></tr>" +
-          "<tr class='total'><td colspan='3'>GST (5%)</td><td colspan='2'>Rs. " + t.gst.toFixed(2) + "</td></tr>" +
-          "<tr class='total'><td colspan='3'>Grand Total</td><td colspan='2'>Rs. " + t.grand.toFixed(2) + "</td></tr>";
-      }
-    }
-
-    // ---------- Events ----------
-    document.getElementById("addBtn").addEventListener("click", function () {
-      let customerOk = validateCustomer();
-      let itemOk = validateItem();
-      if (!(customerOk && itemOk)) {
-        document.getElementById("msg").textContent = "Please fix the errors above.";
+      // validation
+      if (qty < 1 || !Number.isInteger(qty)) {
+        error.innerHTML = "Quantity must be a whole number, 1 or more";
         return;
       }
-      document.getElementById("msg").textContent = "";
+      error.innerHTML = "";
 
-      let parts = document.getElementById("item").value.split("|");  // ["Tea","10"]
-      let name = parts[0];
-      let price = Number(parts[1]);
-      let qty = Number(document.getElementById("qty").value);
-
-      // if item already in bill, increase qty
-      let existing = bill.find(function (l) { return l.name === name; });
-      if (existing) {
-        existing.qty += qty;
-      } else {
-        bill.push({ name: name, price: price, qty: qty });
-      }
-      document.getElementById("qty").value = 1;
-      document.getElementById("item").value = "";
-      render();
-    });
-
-    // delegation: one listener for all remove buttons
-    document.getElementById("billBody").addEventListener("click", function (event) {
-      if (event.target.tagName === "BUTTON") {
-        let index = Number(event.target.getAttribute("data-index"));
-        bill.splice(index, 1);
-        render();
-      }
-    });
-
-    document.getElementById("clearBtn").addEventListener("click", function () {
-      if (bill.length === 0) { alert("The bill is already empty."); return; }
-      if (confirm("Clear the whole bill?")) {
-        bill = [];
-        render();
-      }
-    });
-
-    render();
+      bill.push({ item: item, qty: qty });
+      showBill();
+    };
   </script>
 </body>
 </html>
 ```
 
-**Test cases to give students:**
-1. Press Add with everything empty: errors appear.
-2. Mobile `12345`: error. Mobile `9876543210`: accepted.
-3. 2 Tea + 1 Samosa: subtotal 40, GST 2.00, total 42.00.
-4. Add Tea again: quantity increases, no new row.
-5. Quantity `0` or `2.5`: error.
+Try: 2 Tea and 1 Samosa gives subtotal 40.00, GST 2.00, total 42.00. Quantity `0` shows the error.
 
-## Version 2: jQuery To-do List (short)
+**Extension (jQuery):** after Part B, rewrite the button click using `$("#addBtn").click(...)` and make new rows fade in with `.hide().fadeIn()`.
 
-Save as `todo-jquery.html`.
+**Second small project: jQuery to-do list.** Save as `todo-jquery.html`:
 
 ```html
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>To-do list</title>
+  <title>To-do</title>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <style>
-    body { font-family: Arial; margin: 30px; }
+    .done { text-decoration: line-through; color: gray; }
     li { cursor: pointer; margin: 5px 0; }
-    li.done { text-decoration: line-through; color: gray; }
-    .err { color: red; }
   </style>
 </head>
 <body>
-  <h2>My Study To-do</h2>
-  <input type="text" id="task" placeholder="e.g. Finish Module 2">
+  <h2>My Tasks</h2>
+  <input id="task" placeholder="New task">
   <button id="add">Add</button>
-  <span class="err" id="err"></span>
+  <span id="err" style="color:red"></span>
   <ul id="list"></ul>
-  <p><span id="left">0</span> tasks left. <button id="clean">Remove done tasks</button></p>
+  <p>Click a task to mark it done.</p>
 
   <script>
     $(function () {
-      function updateCount() { $("#left").text($("#list li:not(.done)").length); }
-
-      function addTask() {
+      $("#add").click(function () {
         let text = $("#task").val().trim();
-        if (text === "") { $("#err").text("Task cannot be empty"); return; }
+        if (text === "") {
+          $("#err").text("Type a task first");
+          return;
+        }
         $("#err").text("");
-        $("<li></li>").text(text).hide().appendTo("#list").slideDown(200);
-        $("#task").val("").focus();
-        updateCount();
-      }
-
-      $("#add").click(addTask);
-      $("#task").on("keyup", function (e) { if (e.key === "Enter") addTask(); });
+        $("<li>").text(text).hide().appendTo("#list").fadeIn();
+        $("#task").val("");
+      });
 
       $("#list").on("click", "li", function () {
         $(this).toggleClass("done");
-        updateCount();
-      });
-      $("#clean").click(function () {
-        $("#list li.done").slideUp(200, function () { $(this).remove(); });
-        // count updates after removal; done items are already excluded
       });
     });
   </script>
@@ -2024,372 +1048,101 @@ Save as `todo-jquery.html`.
 
 ---
 
-# CLASSROOM ACTIVITIES (QUICK COLLECTION)
+## Exam Questions (short answers)
 
-1. **Console detective (5 min):** Open any website, press F12, and in the Console type `document.title` and `document.querySelectorAll("a").length`. Ask: what did you learn about the page?
-2. **Human DOM (10 min):** Students stand as a DOM tree (document, body, 2 divs, 3 paragraphs). The teacher says "change the colour of all paragraphs" and the paragraph students raise a hand. This explains selectors.
-3. **Debug the bug (10 min):** Give broken code. Example: `$("#btn").click(hideIt())`, missing `$(function(){ })`, `if (x = 5)`, forgetting `return` in `onsubmit`. Students find and fix.
-4. **Rock-paper-scissors (15 min):** Use `Math.random()`, an array, `if/else`, and `prompt`.
-5. **Cricket scoreboard (15 min):** Array of player objects, loop to print a table, compute strike rate and team total.
-6. **Hover gallery (10 min):** Four coloured divs; on hover change the background and show the name using jQuery.
-7. **Plain JS vs jQuery race (10 min):** Half the class writes "hide a paragraph on click" in plain JS, the other half in jQuery. Compare lines of code.
-8. **Quiz relay (10 min):** Two teams. The teacher asks "Which method?" questions (`prepend` or `append`? `attr` or `prop`?). One point each.
+**Q1. Difference between `prompt()` and `alert()`. Give an example of `prompt()` to get input. (3 marks)**
 
----
-
-# PART E: QUESTION BANK (KTU STYLE)
-
-Pattern: **Part A** has short questions (3 marks each). **Part B** has longer questions (9 marks each) with sub-parts. Marks below are suggestions.
-
-## Part A (3 marks each)
-
-1. What is a scripting language? Mention two uses of JavaScript in a web page.
-2. Differentiate between `let`, `const` and `var`.
-3. Differentiate between `prompt()` and `alert()` with an example of `prompt()`.
-4. Write a JavaScript program fragment to find the largest of three numbers using if-else.
-5. Differentiate between `while` and `do-while` loops with examples.
-6. What is the DOM? Name any three methods used to select elements.
-7. Write a jQuery snippet to hide a paragraph when a button is clicked.
-8. What are the differences between `.text()`, `.html()` and `.val()` in jQuery?
-9. Explain `.each()` in jQuery with a short example.
-10. What is a JavaScript library? Mention two advantages of using jQuery.
-
-## Part B (9 marks each)
-
-11. (a) Explain how JavaScript handles form validation. (5 marks)
-    (b) Write a JavaScript function that checks whether a text field is empty when the form is submitted. (4 marks)
-
-12. (a) Explain functions and arrays in JavaScript with examples. (6 marks)
-    (b) How do functions and arrays help to organise code? (3 marks)
-
-13. (a) Explain the different control statements in JavaScript (`if`, `switch`, `for`, `while`, `do-while`, `break`, `continue`) with examples. (6 marks)
-    (b) Write a program to print the sum of the first N natural numbers using a loop, where N is read with `prompt()`. (3 marks)
-
-14. (a) Explain jQuery selectors with at least six examples. (5 marks)
-    (b) Write a jQuery script to select all paragraphs and change their font colour to blue on a button click. (4 marks)
-
-15. (a) Explain jQuery events and the event object with examples. (5 marks)
-    (b) Write jQuery code to change the background colour of a `div` when the mouse is over it and change it back when the mouse moves out. (4 marks)
-
-16. (a) Explain jQuery effects and the `animate()` method with examples. (5 marks)
-    (b) Explain how to insert new elements into a page using jQuery (`append`, `prepend`, `after`, `before`). (4 marks)
-
-**More practice (not for marks):**
-- Explain DOM traversing methods in jQuery with examples.
-- Write a program using an object that stores student details and prints them in a table.
-- Compare plain JavaScript and jQuery for selecting elements and handling events.
-- Write a form with name and email fields and validate it using jQuery.
-
----
-
-## Model answers and answer hints
-
-### Q3 (Part A). Difference between prompt() and alert(), with a prompt() example
-
-| Point | `alert()` | `prompt()` |
-|---|---|---|
-| Purpose | Shows a message to the user | Asks the user to type a value |
-| Input box | No | Yes |
-| Buttons | OK | OK and Cancel |
-| Returns | `undefined` (nothing useful) | Typed text as a string; `null` if Cancel |
-
-```html
-<!DOCTYPE html>
-<html>
-<body>
-<script>
-  let name = prompt("Enter your name:", "Guest");   // asks input
-  if (name !== null && name.trim() !== "") {
-    alert("Hello, " + name + "!");                  // shows output
-  } else {
-    alert("No name entered.");
-  }
-</script>
-</body>
-</html>
-```
-
-Note: the value returned by `prompt()` is always a string. Use `Number()` or `parseInt()` if a number is needed.
-
-### Q7 (Part A). jQuery snippet to hide a paragraph when a button is clicked
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script>
-    $(document).ready(function () {
-      $("#hideBtn").click(function () {
-        $("p").hide();
-      });
-    });
-  </script>
-</head>
-<body>
-  <p>This paragraph will be hidden.</p>
-  <button id="hideBtn">Hide</button>
-</body>
-</html>
-```
-
-Explanation: `$(document).ready` runs the code after the page loads. `$("#hideBtn").click(...)` attaches a click handler. `$("p").hide()` hides all paragraphs.
-
-### Q2 (Part A). Differentiate let, const and var (hint)
-
-- `var`: function scope, can be re-declared and changed, hoisted with value `undefined`.
-- `let`: block scope, can be changed, cannot be re-declared in the same scope.
-- `const`: block scope, must be given a value at declaration, cannot be reassigned (an object's inside can still change).
-- Give a 3-line example for each.
-
-### Q5 (Part A). while versus do-while (hint)
-
-- `while` checks the condition first, so the body may run zero times.
-- `do-while` runs the body first, then checks, so it runs at least once.
-- Example: print 1 to 5 with each; show that with a false condition `while` prints nothing but `do-while` prints once.
-
-### Q11. How JavaScript handles form validation, with an empty-field example
-
-**(a) Explanation (model answer)**
-
-Form validation is checking the data a user enters in a form before it is sent to the server. JavaScript does this on the client (browser) side.
-
-Steps:
-1. A handler is attached to the form's `onsubmit` event (or `submit` event with `addEventListener`).
-2. The handler reads field values from the DOM using `document.getElementById("id").value` or `document.forms["name"]["field"].value`.
-3. It tests the values using conditions: empty check, length check, number range, pattern (regular expression) for email or mobile, password match, checkbox checked.
-4. If a test fails, it shows an error (with `alert` or by writing text into the page) and stops the submission by `return false` or `event.preventDefault()`.
-5. If all tests pass, it allows the form to submit (`return true`).
-
-Advantages: instant feedback, fewer useless requests to the server, better user experience.
-Limitation: users can switch off or bypass JavaScript, so the **server must validate again**. HTML5 attributes (`required`, `type="email"`, `pattern`) give simple validation without script.
-
-**(b) Example: empty text field on submit**
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Empty field check</title>
-  <script>
-    function validateForm() {
-      let x = document.forms["myForm"]["fname"].value.trim();
-      if (x === "") {
-        alert("Name must be filled out");
-        return false;          // stop submit
-      }
-      return true;             // allow submit
-    }
-  </script>
-</head>
-<body>
-  <form name="myForm" action="submit.php" method="post" onsubmit="return validateForm()">
-    Name: <input type="text" name="fname">
-    <input type="submit" value="Submit">
-  </form>
-</body>
-</html>
-```
-
-Marking hint: 2 marks for the idea and steps, 1 mark each for event, checks, stopping submission, and for the server-side remark. Code: 1 for function, 1 for reading the value, 1 for the empty condition and message, 1 for `return false/true` with `onsubmit="return ..."`.
-
-### Q15(b). Change background of a div on mouse over, back on mouse out
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <style>
-    #box { width: 200px; height: 100px; background-color: white; border: 1px solid black; }
-  </style>
-  <script>
-    $(document).ready(function () {
-      $("#box").mouseover(function () {
-        $(this).css("background-color", "yellow");
-      });
-      $("#box").mouseout(function () {
-        $(this).css("background-color", "white");
-      });
-    });
-  </script>
-</head>
-<body>
-  <div id="box">Move the mouse over me</div>
-</body>
-</html>
-```
-
-Shorter way using `hover`:
+`alert()` only **shows** a message with an OK button and returns nothing. `prompt()` **asks the user to type** a value and returns it as text (or `null` if Cancel is pressed).
 
 ```javascript
-$("#box").hover(
-  function () { $(this).css("background-color", "yellow"); },
-  function () { $(this).css("background-color", "white"); }
-);
+let name = prompt("Enter your name");
+alert("Hello, " + name);
 ```
 
-(`mouseenter` and `mouseleave` are slightly better than `mouseover` and `mouseout` when the div has children, because they do not fire again when the mouse moves over inner elements. `hover` uses them.)
-
-### Q12. Functions and arrays in JavaScript, and how they organise code
-
-**(a) Explanation**
-
-*Function:* a named, reusable block of code that may take parameters and return a value. Defined with the `function` keyword (or arrow syntax) and called by name.
-
-*Array:* an ordered collection of values stored in one variable, accessed by index starting at 0. It has a `length` and methods such as `push`, `pop`, `sort`, `map`, `filter`.
+**Q2. jQuery to hide a paragraph when a button is clicked. (3 marks)**
 
 ```html
-<!DOCTYPE html>
-<html>
-<body>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<p>Hide me</p>
+<button id="btn">Hide</button>
 <script>
-  // Array: marks of 5 students
-  let marks = [72, 45, 88, 30, 91];
-
-  // Function: takes an array, returns the average
-  function average(list) {
-    let sum = 0;
-    for (let i = 0; i < list.length; i++) {
-      sum += list[i];
-    }
-    return sum / list.length;
-  }
-
-  // Function: takes an array, returns only passed marks (>= 40)
-  function passed(list) {
-    return list.filter(function (m) { return m >= 40; });
-  }
-
-  document.write("Average: " + average(marks).toFixed(2) + "<br>");   // 65.20
-  document.write("Passed marks: " + passed(marks).join(", "));        // 72, 45, 88, 91
-
-  marks.push(60);                       // add a new mark
-  document.write("<br>Count now: " + marks.length);                  // 6
-</script>
-</body>
-</html>
-```
-
-**(b) How they help organise code**
-
-- **Functions** avoid repeating code (write once, call many times), break a big problem into small named steps, make testing and fixing easier (fix in one place), and allow reuse across pages.
-- **Arrays** keep many related values under one name instead of many separate variables (`mark1, mark2, ...`), work well with loops, and allow built-in operations (sort, search, filter).
-- Together: data goes in arrays, the logic that works on the data goes in functions. The program becomes shorter, readable and easier to change.
-
-### Q14(b). Select all paragraphs, change font colour to blue on button click
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script>
-    $(document).ready(function () {
-      $("#colorBtn").click(function () {
-        $("p").css("color", "blue");
-      });
+  $(function () {
+    $("#btn").click(function () {
+      $("p").hide();
     });
-  </script>
-</head>
-<body>
-  <p>First paragraph</p>
-  <p>Second paragraph</p>
-  <p>Third paragraph</p>
-  <button id="colorBtn">Make text blue</button>
-</body>
-</html>
+  });
+</script>
 ```
 
-Explanation: `$("p")` selects every paragraph; `.css("color","blue")` sets the font colour on all of them at once, so no loop is needed.
+**Q3. Explain how JavaScript handles form validation. Example to check if a text field is empty on submit. (6 marks)**
 
-### Q14(a). jQuery selectors (hint with six examples)
-
-| Selector | Meaning |
-|---|---|
-| `$("p")` | element selector |
-| `$("#id")` | id selector |
-| `$(".class")` | class selector |
-| `$("ul li")` | descendant selector |
-| `$("p:first")` | first paragraph |
-| `$("input[type='text']")` | attribute selector |
-| `$("li:even")` | even-indexed items |
-| `$(this)` | current element |
-
-Write one line of explanation for each and show one live example.
-
-### Q15(a). Events and event object (hint)
-
-- Event: action on the page (click, hover, key, submit). Handler attached with `.click()`, `.on("click", fn)`; `.off()` removes it.
-- Categories: mouse, keyboard, form, document/window.
-- Event object: passed as the first parameter; has `type`, `target`, `pageX`, `pageY`, `key`, `preventDefault()`, `stopPropagation()`.
-- Example: stop a link from opening using `e.preventDefault()`; show mouse coordinates with `mousemove`.
-
-### Q16 (hint)
-
-(a) Effects: `show/hide/toggle`, `fadeIn/fadeOut/fadeToggle/fadeTo`, `slideDown/slideUp/slideToggle`. `animate({props}, speed, callback)` changes numeric CSS properties. Give code like `$("#box").animate({left:"250px", opacity:0.5}, 1000)`.
-(b) `append` (inside end), `prepend` (inside start), `after` (outside after), `before` (outside before). Show a small list example and say what each produces.
-
-### Q13(b). Sum of first N natural numbers
+Explain: validation checks input before it is sent. JavaScript reads the values with `.value`, tests them with `if`, shows a message, and calls `e.preventDefault()` to stop the form being sent if there is a problem. Then give the code:
 
 ```html
-<!DOCTYPE html>
-<html>
-<body>
+<form id="f">
+  <input type="text" id="name">
+  <button type="submit">Submit</button>
+</form>
+<p id="msg" style="color:red"></p>
+
 <script>
-  let n = parseInt(prompt("Enter N:"));
-  if (isNaN(n) || n < 1) {
-    alert("Please enter a positive whole number");
-  } else {
-    let sum = 0;
-    for (let i = 1; i <= n; i++) {
-      sum += i;
+  document.getElementById("f").onsubmit = function (e) {
+    let name = document.getElementById("name").value.trim();
+    if (name === "") {
+      document.getElementById("msg").innerHTML = "Name cannot be empty";
+      e.preventDefault();
     }
-    alert("Sum of first " + n + " natural numbers = " + sum);
-  }
+  };
 </script>
-</body>
-</html>
 ```
 
-### Q4 (Part A). Largest of three numbers
+**Q4. jQuery to change a div's background when the mouse moves over it and back when it moves away. (3 marks)**
 
 ```javascript
-let a = 12, b = 45, c = 30;
-if (a >= b && a >= c) {
-  console.log("Largest is " + a);
-} else if (b >= a && b >= c) {
-  console.log("Largest is " + b);
-} else {
-  console.log("Largest is " + c);
+$(function () {
+  $("#box").mouseenter(function () {
+    $(this).css("background-color", "yellow");
+  }).mouseleave(function () {
+    $(this).css("background-color", "white");
+  });
+});
+```
+
+**Q5. Explain functions and arrays in JavaScript with examples. How do they help organise code? (5 marks)**
+
+A **function** is a named block of code that can be called many times. An **array** stores many values in one variable.
+
+```javascript
+let marks = [80, 65, 90];
+
+function average(list) {
+  let sum = 0;
+  for (let i = 0; i < list.length; i++) {
+    sum = sum + list[i];
+  }
+  return sum / list.length;
 }
+
+console.log(average(marks));   // 78.33...
 ```
 
-### Q8, Q9, Q10 (hints)
+How they help: functions avoid repeating code and can be fixed in one place; arrays keep related data together so a loop can process it. Together, large programs are split into small, named, reusable pieces.
 
-- Q8: `.text()` gets/sets plain text, `.html()` gets/sets HTML markup, `.val()` gets/sets form field values. Show one example of each.
-- Q9: `.each()` runs a function for every element in the selection. Example: add up `data-price` of all list items. `$(this)` is the current element; `return false` stops the loop.
-- Q10: A library is reusable code written by others. jQuery advantages: short syntax, handles browser differences, built-in effects and Ajax, big plugin community.
+**Q6. jQuery to select all paragraphs and change their font colour to blue on button click. (3 marks)**
 
----
+```javascript
+$(function () {
+  $("#btn").click(function () {
+    $("p").css("color", "blue");
+  });
+});
+```
 
-## Quick revision sheet (one page for students)
-
-- Variables: `let` (change), `const` (fixed), avoid `var`.
-- `prompt` returns string or `null`. `confirm` returns true/false. `alert` returns nothing.
-- Use `===` not `==`.
-- Loops: `for` (known count), `while` (condition first), `do-while` (at least once). `break` stops, `continue` skips.
-- Array index starts at 0. Object uses `key: value`.
-- DOM = tree of the page. Change it with `getElementById`, `querySelector`, `innerHTML`, `textContent`, `style`, `classList`, `createElement`, `appendChild`.
-- Validation: read value, test, show error, `preventDefault()` / `return false`. Server must re-check.
-- jQuery shape: `$(selector).action()`. Always wrap in `$(function(){ ... })`.
-- Content: `.text() .html() .val()`. Insert: `.append .prepend .after .before`. Attributes: `.attr .prop .removeAttr`. CSS: `.css .addClass .toggleClass`.
-- Events: `.click .on .hover .keyup .change .submit`. Event object: `e.preventDefault()`, `e.target`, `e.pageX`.
-- Effects: `.hide .show .fadeIn .fadeOut .slideToggle .animate`.
-- Traversing: `.parent .children .find .siblings .next .prev .closest`.
-- Library = ready-made code. Load the library script before your own.
-
-*End of Module 2.*
+**More practice:**
+1. Differentiate `let`, `const` and `var`. (3 marks)
+2. Write a program to print the multiplication table of a number entered by the user. (4 marks)
+3. Differentiate `while` and `do...while`. (3 marks)
+4. What is the DOM? Explain with an example. (5 marks)
+5. Explain any four jQuery effects with examples. (4 marks)
+6. What is a JavaScript library? Why is jQuery used? (3 marks)
+7. Differentiate between an array and an object. (3 marks)
